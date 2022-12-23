@@ -170,7 +170,7 @@ aliases: [자바스터티_09_java.lang패키지와유용한클래스]
 	       > + 클래스의 모든 정보를 가지고 있음
 	       > + 클래스 파일이 클래스 로더에 의해서 메모리에 올라갈때 자동적으로 생성되며 클래스당 1개만 존재함
 	            
-          > 리플렉션(Reflection)[^1]
+           > 리플렉션(Reflection)[^1]
  	       > + 동적으로 인스턴스를 생성하고 메서드를 호출하는 방법
 	+ String 클래스
 		 + **변경 불가능한(immutable) 클래스**로 할당된 공간이 변하지 않는 것이 불변, 할당된 공간이 변하는것이 가변이라고 함
@@ -268,13 +268,13 @@ aliases: [자바스터티_09_java.lang패키지와유용한클래스]
 	> int num = intObj; // 언박싱(#3)
 	> [바이러니 코드]
 	> Code:
-	> 	0: iconst_1
-	> 	1: invokestatic  #2 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
-	> 	4: astore_1
-	> 	5: aload_1
-	> 	6: invokevirtual #3 // Method java/lang/Integer.intValue:()I
-	> 	9: istore_2
-	> 	10: return
+	>  0: iconst_1
+	>  1: invokestatic  #2 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+	>  4: astore_1
+	>  5: aload_1
+	>  6: invokevirtual #3 // Method java/lang/Integer.intValue:()I
+	>  9: istore_2
+	>  10: return
 	> ```
 
 2. 유용한 클래스
