@@ -262,6 +262,7 @@ aliases: [자바스터티_09_java.lang패키지와유용한클래스]
 	
 	// 기본형 타입은 null을 허용하지 않기때문에 에러 발생함
 	int testNum = intObj == null ? 0 : intObj;
+	int testNum = intObj; // Null 에러발생
 	
 	System.out.println("### testNum : " + testNum);
 	```
