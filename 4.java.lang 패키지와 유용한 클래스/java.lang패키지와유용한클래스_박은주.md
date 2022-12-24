@@ -255,7 +255,17 @@ aliases: [자바스터티_09_java.lang패키지와유용한클래스]
 	    | long        | Long          |
 	    | float       | Float         |
 	    | double      | Double        |
-	    
+	
+	```
+	Integer intObj = null; // 래퍼 클래스에 강제로 null 셋팅
+    int testNum = intObj;
+	
+	// 기본형 타입은 null을 허용하지 않기때문에 에러 발생함
+	int testNum = intObj == null ? 0 : intObj;
+	
+	System.out.println("### testNum : " + testNum);
+	```
+	
 	> 오토박싱(Autoboxing), 언박싱(Unboxing)
 	> + 오토박싱(Autoboxing) : 기본형 값 -> 래퍼 클래스의 값
 	> + 언박싱(Unboxing) : 래퍼 클래스의 값 -> 기본형 값
@@ -266,7 +276,7 @@ aliases: [자바스터티_09_java.lang패키지와유용한클래스]
 	> Integer intObj = 1; // 오토박싱(#2)
 	> // 기본형
 	> int num = intObj; // 언박싱(#3)
-	> [바이러니 코드]
+	> [바이너리 코드]
 	> Code:
 	>  0: iconst_1
 	>  1: invokestatic  #2 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
