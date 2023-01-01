@@ -287,6 +287,17 @@ aliases: [자바스터티_09_java.lang패키지와유용한클래스]
 	>  9: istore_2
 	>  10: return
 	> ```
+ 
+	> [2022-12-31]Java9에서 래퍼클래스 생성자 deprecated
+	> + **래퍼클래스 생성자를 이용해서 참조변수를 생성하는 것을 권장하지 않으며 대신 valueOf() 사용(이유: 성능 및 메모리 할당에 유리하다고 함)**
+	> + https://docs.oracle.com/javase/9/docs/api/java/lang/Integer.html
+	> ```
+	> // 사용해도 가능
+	> Integer intObj1 = 100;
+	> Integer intObj2 = Integer.valueOf(100);
+	> // 권장하지 않음
+	> Integer intObj1 = new Integer(100);
+	> ```
 
 2. 유용한 클래스
 	+ java.math.BigInteger 클래스
