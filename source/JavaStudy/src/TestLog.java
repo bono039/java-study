@@ -18,7 +18,7 @@ public class TestLog {
         logger.info("### info : 시스템에 대한 정보를 제공해야하는 경우 사용");
         logger.warn("### warn : 에러가 발생하지 않았지만 해당 정보에 대해서 알려주어야 할 경우 사용");
         logger.error("### error : 에러가 발생한 경우 사용");
-//        logger.fatal("### fatal : 시스템 운영이 불가능한 경우 사용");
+        logger.fatal("### fatal : 시스템 운영이 불가능한 경우 사용");
     }
 
 }
