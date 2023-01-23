@@ -113,10 +113,10 @@ public class TestFormat {
     }
     
     public static void main(String[] args) {
-//        decimalFormat();
+        decimalFormat();
 //        simpleDateFormat();
 //        choiceFormat();
-        messageFormat();
+//        messageFormat();
     }
 
 }
