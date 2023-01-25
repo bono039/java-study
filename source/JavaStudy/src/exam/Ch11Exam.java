@@ -9,7 +9,12 @@ import java.util.Vector;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
+/**
+ * 챕터11 문제
+ *  
+ * @author : pej 
+ * @date : 2023.01.25
+ */
 public class Ch11Exam {
     private static Logger logger = LogManager.getLogger(Ch11Exam.class);
     
