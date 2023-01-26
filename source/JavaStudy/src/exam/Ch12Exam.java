@@ -5,6 +5,14 @@ import java.util.ArrayList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import exam.Test.Apple;
+import exam.Test.Card;
+import exam.Test.Deck;
+import exam.Test.FruitBox;
+import exam.Test.Juicer;
+import exam.Test.Card.Kind;
+import exam.Test.Card.Number;
+
 /**
  * 챕터12 문제
  *  
@@ -17,6 +25,7 @@ public class Ch12Exam {
     /**
      * <pre>
      * 클래스 Box가 다음과 같이 정의되어 있을때, 다음 중 오류가 발생하는 문장은?
+     * 
      * 정답 : a, b, c
      * </pre>
      *
@@ -36,7 +45,7 @@ public class Ch12Exam {
             }
         }
         
-        // a. 서로 다른 타입 매개변수로 할 수 없음
+        // a. 대입된 타입이 같아야 함
         // Box<Object> b = new Box<String>();
         // => Box<Object> b = new Box<>(); 
         
@@ -53,39 +62,52 @@ public class Ch12Exam {
         
     }
     
+    class Fruit {}
+    class Apple extends Fruit {}
+    class Grape extends Fruit {}
+    class FruitBox<T> extends Fruit {}
     
+    static class Juicer {
+        // 제네릭 메서드
+        static <T extends Fruit> String makeJuice(FruitBox<T> box) {
+           return "";
+        }
+    }
     
     /**
      * <pre>
      * 지네릭 메서드 makeJuice()가 아래와 같이 정의되어 있을때, 이 메서드를 올바르게 호출한 문장을 모두 고르시오.
      * (Apple과 Grape는 Fruit의 자손이라고 가정하자.)
+     * 
+     * 정답 : c,d 
      * </pre>
      *
      * @author : pej 
      * @date : 2023.01.25 
      */
     public void exam02() {
-        class Fruit {}
-        class Apple extends Fruit {}
-        class Grape extends Fruit {}
-        class FruitBox<T> extends Fruit {
-            FruitBox<T> list;
-            
-            FruitBox<T> getList() {
-                return list;
-            }}
+        FruitBox<Apple> appleBox = new FruitBox<Apple>();
+        Juicer.makeJuice(appleBox); // == Juicer.<Apple>makeJuice(appleBox);
         
-         class Juicer {
-             <T extends Fruit> String makeJuice(FruitBox<T> box) {
-                String tmp = "";
-                for (Fruit f : box.getList()) {
-                    tmp += f + " ";
-                }
-                return tmp;
-            }
-        }
+        FruitBox<? extends Fruit> box = new FruitBox<Apple>();
+        Juicer.makeJuice(box);
         
+        // a. 서로 다른 타입으로 에러 발생
+        // Juicer.<Apple>makeJuice(new FruitBox<Fruit>());
+        // => Juicer.<Fruit>makeJuice(new FruitBox<Fruit>());
         
+        // b. 서로 다른 타입으로 에러 발생
+        // Juicer.<Fruit>makeJuice(new FruitBox<Grape>());
+        // => Juicer.<Grape>makeJuice(new FruitBox<Grape>());
+         
+        // c. 
+        Juicer.<Fruit>makeJuice(new FruitBox<Fruit>());
+        
+        // d. 
+        Juicer.makeJuice(new FruitBox<Apple>());
+        
+        // e. Object가 Fruit 클래스의 하위 클래스가 아니므로 에러 발생
+        // Juicer.makeJuice(new FruitBox<Object>());
     }
     
     /**
@@ -97,7 +119,7 @@ public class Ch12Exam {
      * @author : pej 
      * @date : 2023.01.25 
      */
-    @SuppressWarnings("unused")
+    @SuppressWarnings({"unused", "hiding", "rawtypes"})
     public void exam03() {
         class Fruit {}
         class Apple extends Fruit {}
@@ -158,17 +180,11 @@ public class Ch12Exam {
      */
     public void exam04() {
         class Product {}
-        /*
-        public static ArrayList<? extends Product> merge(
-                ArrayList<? extends Product> list, ArrayList<? extends Product> list2) {
-            ArrayList<? extends Product> newList = new ArrayList<>(list);
-            
-            newList.addAll(list2);
-            
-            return newList;
-        }
-        */
         
+        /**
+         * Q1. 이미 제네릭 메서드가 아닌가?
+         */
+        /*
         public static ArrayList<? extends Product> merge(ArrayList<? extends Product> list, ArrayList<? extends Product> list2) {
             ArrayList<? extends Product> newList = new ArrayList<>(list);
             
@@ -176,7 +192,96 @@ public class Ch12Exam {
             
             return newList;
         }
+        */
+        /*
+        public static ArrayList<T extends Product> merge(ArrayList<T> list, ArrayList<T> list2) {
+            ArrayList<T> newList = new ArrayList<>(list);
+            
+            newList.addAll(list2);
+            
+            return newList;
+        }
+        */
     }
+    
+    // Card클래스 
+    public static class Card {
+        enum Kind { CLOVER, HEART, DIAMOND, SPADE }
+        enum Number {
+            ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING
+        }
+
+        Kind kind; 
+        Number num;
+
+        Card() {
+            this(Kind.SPADE, Number.ACE);
+        }
+
+        Card (Kind kind, Number num) { 
+            this.kind = kind; 
+            this.num = num;
+        }
+
+        public String toString() {
+            return "[" + kind.name() + "," + num.name() + "]";
+        } // toString()의 끝
+    }
+    
+    public static class Deck {
+        final int CARD_NUM = Card.Kind.values().length * Card.Number.values().length; // 카드의 개수
+        
+        Card cardArr[] = new Card[CARD_NUM]; // Card객체 배열을 포함
+
+        Deck () {
+            /*
+            (1) 알맞은 코드를 넣어서 완성하시오. Deck의 카드를 초기화한다.
+            */
+            for (int i=0; i<cardArr.length; i++) {
+                Card card = new Card();
+                cardArr[i] = card; 
+            }
+        }
+
+        Card pick(int index) {  // 지정된 위치(index)에 있는 카드 하나를 꺼내서 반환
+            return cardArr[index];
+        }
+        
+        Card pick() {   // Deck에서 카드 하나를 선택한다.
+            int index = (int) (Math.random() * CARD_NUM);
+            return pick(index);
+        }
+
+        void shuffle() { // 카드의 순서를 섞는다.
+            for(int i=0; i < cardArr.length; i++) {
+                int r = (int)(Math.random() * CARD_NUM);
+                Card temp = cardArr[i]; 
+                cardArr[i] = cardArr[r]; 
+                cardArr[r] = temp;
+            }
+        }
+    } // Deck클래스의 끝
+    
+    /**
+     * <pre>
+     * 아래는 예제7-3에 열거형 Kind와 Number를 새로 정의하여 적용한 것이다.
+     * (1)에 알맞은 코드를 넣어 예제를 완성하시오. 
+     * (Math.random()을 사용했으므로 실행결과가 달라 질 수 있다.)
+     * </pre>
+     *
+     * @author : pej 
+     * @date : 2023.01.26
+     */
+    public static void exam05() {
+        Deck d = new Deck();    // 카드 한 벌(Deck)을 만든다. 
+        Card c = d.pick(0);     // 섞기 전에 제일 위의 카드를 뽑는다.
+        System.out.println(c);  // System.out.println(c.toString());과 같다.
+
+        d.shuffle();    // 카드를 섞는다.
+        c = d.pick(0);  // 섞은 후에 제일 위의 카드를 뽑는다.
+        System.out.println(c);
+    }
+    
     
     /**
      * <pre>
@@ -206,6 +311,6 @@ public class Ch12Exam {
     }
     
     public static void main(String[] args) {
-        
+        exam05();
     }
 }
