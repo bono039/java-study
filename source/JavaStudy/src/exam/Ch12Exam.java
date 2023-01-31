@@ -1,17 +1,7 @@
 package exam;
 
-import java.util.ArrayList;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import exam.Test.Apple;
-import exam.Test.Card;
-import exam.Test.Deck;
-import exam.Test.FruitBox;
-import exam.Test.Juicer;
-import exam.Test.Card.Kind;
-import exam.Test.Card.Number;
 
 /**
  * 챕터12 문제
@@ -20,6 +10,7 @@ import exam.Test.Card.Number;
  * @date : 2023.01.25
  */
 public class Ch12Exam {
+    @SuppressWarnings("unused")
     private static Logger logger = LogManager.getLogger(Ch12Exam.class);
     
     /**
@@ -40,6 +31,7 @@ public class Ch12Exam {
                 this.item = item;
             }
             
+            @SuppressWarnings("unused")
             T getItem() {
                 return item;
             }
@@ -179,11 +171,6 @@ public class Ch12Exam {
      * @date : 2023.01.25 
      */
     public void exam04() {
-        class Product {}
-        
-        /**
-         * Q1. 이미 제네릭 메서드가 아닌가?
-         */
         /*
         public static ArrayList<? extends Product> merge(ArrayList<? extends Product> list, ArrayList<? extends Product> list2) {
             ArrayList<? extends Product> newList = new ArrayList<>(list);
@@ -194,7 +181,7 @@ public class Ch12Exam {
         }
         */
         /*
-        public static ArrayList<T extends Product> merge(ArrayList<T> list, ArrayList<T> list2) {
+        public static <T extends Product> ArrayList<T> merge(ArrayList<T> list, ArrayList<T> list2) {
             ArrayList<T> newList = new ArrayList<>(list);
             
             newList.addAll(list2);
@@ -237,9 +224,13 @@ public class Ch12Exam {
             /*
             (1) 알맞은 코드를 넣어서 완성하시오. Deck의 카드를 초기화한다.
             */
-            for (int i=0; i<cardArr.length; i++) {
-                Card card = new Card();
-                cardArr[i] = card; 
+            int i = 0;
+            
+            for (Card.Kind kind : Card.Kind.values()) {
+                for (Card.Number number : Card.Number.values()) {
+                    cardArr[i] = new Card(kind, number);
+                    i++;
+                }
             }
         }
 
@@ -253,7 +244,7 @@ public class Ch12Exam {
         }
 
         void shuffle() { // 카드의 순서를 섞는다.
-            for(int i=0; i < cardArr.length; i++) {
+            for (int i=0; i < cardArr.length; i++) {
                 int r = (int)(Math.random() * CARD_NUM);
                 Card temp = cardArr[i]; 
                 cardArr[i] = cardArr[r]; 

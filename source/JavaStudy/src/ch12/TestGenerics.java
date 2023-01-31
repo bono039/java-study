@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
  * @date : 2023.01.21
  */
 public class TestGenerics {
+    @SuppressWarnings("unused")
     private static Logger logger = LogManager.getLogger(TestGenerics.class);
     
     public static void test1() {

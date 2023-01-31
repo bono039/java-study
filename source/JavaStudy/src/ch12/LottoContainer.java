@@ -1,6 +1,6 @@
 package ch12;
 
-import static java.lang.annotation.RetentionPolicy.CLASS;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -8,7 +8,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 @Documented
-@Retention(CLASS)
+@Retention(RUNTIME)
 @Target({ ElementType.FIELD, ElementType.TYPE_PARAMETER, ElementType.TYPE_USE })
 public @interface LottoContainer {
     // LottoAnnotation 보다 적용 대상이 같거나 넒어야 함 => 감싸는 Container이니까

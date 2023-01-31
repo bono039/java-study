@@ -1,6 +1,6 @@
 package ch12;
 
-import static java.lang.annotation.RetentionPolicy.CLASS;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -9,7 +9,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 @Documented
-@Retention(CLASS)
+@Retention(RUNTIME)
 @Target({ ElementType.FIELD, ElementType.TYPE_PARAMETER, ElementType.TYPE_USE })
 @Repeatable(LottoContainer.class)
 public @interface LottoAnnotation {

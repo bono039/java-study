@@ -33,28 +33,26 @@ public class TestAnnotation {
     public static class Lotto<@LottoAnnotation(target = "TYPE_USE") T> {
         // <T> void : 타입 매개변수
         // print(T t) : 그냥 타입
-//        public static <@LottoAnnotation(target = "TYPE_PARAMETER") T> void print(@LottoAnnotation(target = "TYPE_PARAMETER") T t) { }
+        // public static <@LottoAnnotation(target = "TYPE_PARAMETER") T> void print(@LottoAnnotation(target = "TYPE_PARAMETER") T t) { }
         
         public static <@LottoAnnotation(target = "TYPE_USE") T> void print(@LottoAnnotation(target = "TYPE_USE") T t) {}
     }
     
+    @SuppressWarnings("unused")
     public static void main(@LottoAnnotation(target = "TYPE_USE") String[] args) throws @LottoAnnotation(target = "TYPE_USE") RuntimeException {
         List<@LottoAnnotation(target = "TYPE_USE") String> list = new ArrayList<>();
         
-        // 어노테이션 읽어오는 방법
+        // 어노테이션 읽어오는 방법(Retention가 RUNTIME이어야 읽어올 수 있음)
         // 방법1)
         LottoAnnotation[] annotationType = TestAnnotation.class.getAnnotationsByType(LottoAnnotation.class);
-        System.out.println(annotationType);
-        
         Arrays.stream(annotationType).forEach(e -> {
-            System.out.println(e.target());
+            logger.debug(e.target());
         });
         
         // 방법2)
         LottoContainer container = TestAnnotation.class.getAnnotation(LottoContainer.class);
-        System.out.println(container);
         Arrays.stream(container.value()).forEach(e -> {
-            System.out.println(e.target());
+            logger.debug(e.target());
         });
     }
 }
