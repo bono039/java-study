@@ -56,16 +56,8 @@ public class Ch10Exam {
         logger.debug("MONTH : {}", startDt.get(Calendar.MONTH));
         logger.debug("DAY_OF_MONTH : {}", startDt.get(Calendar.DAY_OF_MONTH));
         
-        startDt.add
-
-        
-        Calendar endDt = Calendar.getInstance();
-        endDt.set(2010,12,31);
-        
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd은  2번째 일요일입니다.");
 //        logger.debug("cal : {}", sf.format(cal.getTime()));
-        
-        
     }
     
     public static void exercise10_2() {

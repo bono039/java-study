@@ -48,6 +48,7 @@ class TestStudent {
  * @date : 2023.03.01
  */
 public class TestCollect {
+    @SuppressWarnings("unused")
     private static Logger logger = LogManager.getLogger(TestCollect.class);
     
     public static void test1() {

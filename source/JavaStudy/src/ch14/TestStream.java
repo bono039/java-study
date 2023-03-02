@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * Stream 학습
  *  
@@ -12,6 +15,9 @@ import java.util.stream.Stream;
  * @date : 2023.02.24
  */
 public class TestStream {
+    @SuppressWarnings("unused")
+    private static Logger logger = LogManager.getLogger(TestStream.class);
+    
     public static void test1() {
         List<Integer> list = Arrays.asList(1,2,3,4,5);
         Stream<Integer> stream = list.stream();
