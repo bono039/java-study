@@ -82,17 +82,12 @@ public class TestCollect {
         String[] strArr = { "AAAA", "AAAAAAAA", "AA", "A", "AAAAAAAAAAAA", "AAAAAAAAAAAAAAAAAAAAAAAAA", "" };
         Stream<String> stream = Stream.of(strArr);
         
-        /**
-         * Q. 강의에서 자동형변환이 안되는것뿐 명시적 형변환을 하면 된다고 했는데 
-         *    java.lang.ClassCastException 에러 발생함. 이유가 뭔지?
-         */
-//         String[] result1 = (String[]) Stream.of(strArr).toArray();
-        
-         Object[] result2 = Stream.of(strArr).toArray();
-         String[] result3 = Stream.of(strArr).toArray(String[]::new);
-         // 출력
-         System.out.println("==== 출력 ====");
-         Arrays.stream(result3).forEach(System.out::println);
+        String[] result1 = (String[]) Stream.of(strArr).toArray();
+        Object[] result2 = Stream.of(strArr).toArray();
+        String[] result3 = Stream.of(strArr).toArray(String[]::new);
+        // 출력
+        System.out.println("==== 출력 ====");
+        Arrays.stream(result3).forEach(System.out::println);
     }
     
     
@@ -119,14 +114,26 @@ public class TestCollect {
             new TestStudent("이자바", true, 2, 3, 200),
         };
         
+        /**
+         * - Collectors.groupingBy() : 분류 기준이 `Fuction`
+         * - Collectors.partitioningBy() : 분류 기준이 `Predicate`, 반환타입이 boolean 타입  
+         */
+        
         // 학년별로 그룹화
         Map<Integer, List<TestStudent>> group1 = (Map<Integer, List<TestStudent>>) 
                 Arrays.stream(stuArr)
                       .collect(Collectors.groupingBy(TestStudent::getHak))
         ;
-        
         System.out.println("=== 학년별로 그룹화 === ");
         group1.values().stream().forEach(System.out::println);
+        
+        // 성별로 그룹화
+        Map<Boolean, List<TestStudent>> partitioningGroup1 = 
+                Arrays.stream(stuArr)
+                      .collect(Collectors.partitioningBy(TestStudent::isMale))
+        ;
+        System.out.println("=== 성별로 그룹화 === ");
+        partitioningGroup1.values().stream().forEach(System.out::println);
         
         // 학년별 그룹화 건수
         Map<Integer, Long> cntMap = Arrays.stream(stuArr).collect(Collectors.groupingBy(TestStudent::getHak, Collectors.counting()));

@@ -6,18 +6,19 @@ public class TestEffectiveFinal {
     public static void main(String[] args) {
         // effective final
         String name = "test";
-        
+        System.out.println("name.hashCode => " + name.hashCode());
         /**
          * name 필드가 변경되면 지역 클래스, 익명클래스, 람다에서 참조 할 수 없음
          * Local variable name defined in an enclosing scope must be final or effectively final
          */
-        // name = "1";
+         // name = "1";
 
         // 지역 클래스
         class LocalClass {
             void printLocal() {
                 String name = "local";
                 System.out.println("LocalClass => " + name);
+                System.out.println("LocalClass name.hashCode => " + name.hashCode());
             }
         }
         
@@ -27,6 +28,7 @@ public class TestEffectiveFinal {
             public void accept(String s) {
                 String name = "anoymous";
                 System.out.println("anoymousClass => " + name);
+                System.out.println("anoymousClass name.hashCode => " + name.hashCode());
             }
         };
         
@@ -38,6 +40,7 @@ public class TestEffectiveFinal {
              */
             // String name = "lambda";
             System.out.println("lambda => " + name);
+            System.out.println("lambda name.hashCode => " + name.hashCode());
         };
         
         // 출력

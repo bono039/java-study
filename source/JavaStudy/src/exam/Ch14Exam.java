@@ -1,6 +1,5 @@
 package exam;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -218,6 +217,8 @@ public class Ch14Exam {
      * @date : 2023.03.01
      */
     public static void exam04() {
+        // map : Stream<Stream<int[]>>
+        // flatMap : Stream<int[]>, 배열 하나로 반환해서 줌
         List<String> list = Arrays.asList("1","2","3","4","5");
 
         list.stream()
@@ -280,8 +281,9 @@ public class Ch14Exam {
        IntStream intStream = new Random().ints(6, 1, 46);
        /**
         * Q. forEachOrdered() 정렬이 왜 안되는지?
+        * => 정렬을 해주는게 아니라 병렬인 경우에 작업 순서를 보장해주는 것
         */
-       // intStream.distinct().forEachOrdered(System.out::println);
+        // intStream.distinct().forEachOrdered(System.out::println);
        intStream.distinct().sorted().forEach(System.out::println);
     }
     
@@ -395,7 +397,6 @@ public class Ch14Exam {
     }
 
     public static void main(String[] args) {
-//        exam04();
-        test();
+        exam07();
     }
 }
