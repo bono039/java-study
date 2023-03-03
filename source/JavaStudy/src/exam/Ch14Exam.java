@@ -1,5 +1,6 @@
 package exam;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -204,13 +205,38 @@ public class Ch14Exam {
      * <pre>
      * [14-4] 두 개의 주사위를 굴려서 나온 눈의 합이 6인 경우를 모두 출력하시오.
      * [Hint] 배열을 사용하시오.
+     * 
+     * [실행결과]
+     * [1, 5]
+     * [2, 4]
+     * [3, 3]
+     * [4, 2]
+     * [5, 1]
      * </pre>
      *
      * @author : pej 
      * @date : 2023.03.01
      */
     public static void exam04() {
-        IntStream intStream = IntStream.rangeClosed(1, 5);
+        List<String> list = Arrays.asList("1","2","3","4","5");
+
+        list.stream()
+            .flatMap(item -> {
+                String[] newArr = new String[item.split(" ").length];
+                StringBuffer sb = new StringBuffer();
+                
+                for (int i = 0; i <newArr.length; i++) {
+                    sb.append("[");
+                    sb.append(item);
+                    sb.append(",");
+                    sb.append( 6 - Integer.parseInt(item));
+                    sb.append("]");
+                    
+                    newArr[i] = sb.toString();
+                }
+                return Arrays.stream(newArr);
+            })
+            .forEach(System.out::println);
     }
     
     /**
@@ -369,6 +395,7 @@ public class Ch14Exam {
     }
 
     public static void main(String[] args) {
-        exam09();
+//        exam04();
+        test();
     }
 }
