@@ -1,5 +1,6 @@
 package ch14;
 
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.stream.IntStream;
@@ -84,14 +85,19 @@ public class TestOptional {
         
         // forEach() : 병렬인 경우에는 순서가 보장되지 않음, forEachOrdered() 보다 속도가 더 빠름 
         // forEachOrdered() : 병렬인 경우에도 순서가 보장됨
-        System.out.println("forEach()");
-        IntStream.range(1, 10).forEach(System.out::print);
-        System.out.println("");
-        System.out.println("====================");
-        System.out.println("forEachOrdered()");
-        IntStream.range(1, 10).forEachOrdered(System.out::print);
-        System.out.println("");
-        System.out.println("====================");
+        
+        String[] strArr = { "a", "d", "c", "b" };
+        Arrays.stream(strArr).forEach(System.out::println);
+        Arrays.stream(strArr).forEachOrdered(System.out::println);
+        
+//        System.out.println("forEach()");
+//        IntStream.range(1, 10).forEach(System.out::print);
+//        System.out.println("");
+//        System.out.println("====================");
+//        System.out.println("forEachOrdered()");
+//        IntStream.range(1, 10).forEachOrdered(System.out::print);
+//        System.out.println("");
+//        System.out.println("====================");
 
         // parallel() : 순서가 보장되지 않음
         System.out.println("parallel().forEach()");
@@ -126,6 +132,6 @@ public class TestOptional {
     }
     
     public static void main(String[] args) {
-        test5();
+        test4();
     }
 }

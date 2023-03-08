@@ -217,13 +217,13 @@ public class Ch14Exam {
      * @date : 2023.03.01
      */
     public static void exam04() {
-        // map : Stream<Stream<int[]>>
-        // flatMap : Stream<int[]>, 배열 하나로 반환해서 줌
+        // map : Stream<Stream<String[]>>
+        // flatMap : Stream<String[]>, 배열 하나로 반환해서 줌
         List<String> list = Arrays.asList("1","2","3","4","5");
-
+        
         list.stream()
             .flatMap(item -> {
-                String[] newArr = new String[item.split(" ").length];
+                String[] newArr = new String[item.split("").length];
                 StringBuffer sb = new StringBuffer();
                 
                 for (int i = 0; i <newArr.length; i++) {
@@ -238,6 +238,7 @@ public class Ch14Exam {
                 return Arrays.stream(newArr);
             })
             .forEach(System.out::println);
+            
     }
     
     /**
@@ -397,6 +398,6 @@ public class Ch14Exam {
     }
 
     public static void main(String[] args) {
-        exam07();
+        exam04();
     }
 }
