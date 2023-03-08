@@ -51,6 +51,7 @@ public class TestCollect {
     @SuppressWarnings("unused")
     private static Logger logger = LogManager.getLogger(TestCollect.class);
     
+    @SuppressWarnings("unused")
     public static void test1() {
         // collect() :  Collector를 매개변수로 하는 스트림의 최종연산
         /**
@@ -161,6 +162,7 @@ public class TestCollect {
         System.out.println("여 : " + group3.get(false).get(true));
     }
     
+    @SuppressWarnings("unused")
     public static void test3() {
         String[] array = {"Java", "Is", "Fun", "Isn't", "It", "?"};
         

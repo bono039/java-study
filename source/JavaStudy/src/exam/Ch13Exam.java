@@ -34,6 +34,7 @@ public class Ch13Exam {
 //            }
 //        }
         
+        @SuppressWarnings("unused")
         class Thread1 implements Runnable {
             @Override
             public void run() {
@@ -127,6 +128,7 @@ public class Ch13Exam {
      * @author : pej 
      * @date : 2023.02.18
      */
+    @SuppressWarnings("static-access")
     public static void exam06() throws Exception{
         class Thread4 extends Thread { 
             public void run() {
@@ -172,6 +174,7 @@ public class Ch13Exam {
      */
     public static void exam07() {
         class Thread5 extends Thread {
+            @SuppressWarnings("deprecation")
             @Override
             public void run() {
                 // stopped false의 값이 동안 반복한다.

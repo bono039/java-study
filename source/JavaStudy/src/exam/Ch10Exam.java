@@ -1,18 +1,15 @@
 package exam;
 
 import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
-import java.util.Date;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -48,6 +45,7 @@ public class Ch10Exam {
      * @author : pej 
      * @date : 2023.01.15
      */
+    @SuppressWarnings("unused")
     public static void exercise10_1() {
         Calendar startDt = Calendar.getInstance();
         startDt.set(2010,1,1);
@@ -117,6 +115,7 @@ public class Ch10Exam {
      * @author : pej 
      * @date : 2023.01.15 
      */
+    @SuppressWarnings("unused")
     public static void exercise10_8() {
         // ZonedDateTime : LocalDateTime + 시간대
         ZonedDateTime seoulDate = LocalDateTime.now().atZone(ZoneId.of("Asia/Seoul"));

@@ -16,6 +16,7 @@ public class TestGenerics {
     @SuppressWarnings("unused")
     private static Logger logger = LogManager.getLogger(TestGenerics.class);
     
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public static void test1() {
         ArrayList<String> list = new ArrayList<>();
         list.add("1");
