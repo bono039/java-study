@@ -86,8 +86,10 @@ public class TestIO {
             ) {
             
             // 파일 생성
-            String str = "이것은 한글 테스트";
-            fileOut.write(str.getBytes());
+            StringBuffer sb = new StringBuffer();
+            sb.append("123456789");
+//            String str = "이것은 한글 테스트";
+            fileOut.write(sb.toString().getBytes());
 
             // 파일 읽기
             /**
@@ -134,7 +136,33 @@ public class TestIO {
         }
     }
     
+    public static void test4() {
+        /**
+         * 바이트 기반의 보조스트림
+         *  BufferedInputStream/BufferedOutputStream, 
+         *  DataInputStream/DataOutputStream 등
+         */
+        File file = new File("D:\\project\\workspace\\java-study\\source\\JavaStudy\\src\\ch15\\test4.txt");
+        
+        try (FileOutputStream fileOut = new FileOutputStream(file)) {
+            // 버퍼 크기를 5로 지정함
+            BufferedOutputStream bufferOut = new BufferedOutputStream(fileOut, 5);
+            
+            for (int i='1'; i<='9'; i++) {
+                bufferOut.write(i);
+            }
+            
+            // 파일 내용 다 출력됨
+            bufferOut.close();
+            // 파일 내용이 다 출력되지 못하고 끝나버림 
+            // fileOut.close(); 
+            
+        } catch (IOException e) {
+            logger.error("에러 : {}", e.getMessage());
+        }
+    }
+    
     public static void main(String[] args) {
-        test3();
+        test4();
     }
 }
