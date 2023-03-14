@@ -142,6 +142,7 @@ public class Ch15Exam {
     }
 
     public static void main(String[] args) {
+        String[] strArr = { };
         exam03(args);
     }
 }
