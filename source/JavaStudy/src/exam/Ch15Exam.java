@@ -8,8 +8,16 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.util.Arrays;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Stream;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -94,13 +102,95 @@ public class Ch15Exam {
     }
     
     /**
+     * 방법3) Files.lines 이용
+     */
+    public static void exam01_3() {
+        // 테스트 : Ch14Exam.java 150
+        try (BufferedReader bfReader = new BufferedReader(new InputStreamReader(System.in)); ) {
+            
+            // 입력된 값 나누기
+            String[] input = bfReader.readLine().split(" +");
+            
+            Path path = null;
+            
+            // 확장자 입력 안한 경우 자동으로 '.java'로 되게 
+            if (input[0].lastIndexOf(".") == -1) {
+                path = Paths.get(FILE_PATH, input[0] + FILE_EXTENSION);
+            } else {
+                path = Paths.get(FILE_PATH, input[0]);
+            }
+            
+            AtomicInteger lineNum = new AtomicInteger(1);
+            
+            Files.lines(path).forEach(i -> {
+                // 현재값을 가져오고 자동 증가
+                if (lineNum.get() <= Integer.parseInt(input[1])) {
+                    System.out.println(lineNum.getAndIncrement() + ":" + i);
+                }
+            });
+        }
+        catch (IOException e) {
+            logger.error("에러 : {}", e.getMessage());
+        } 
+    }
+    
+    /**
+     * 방법4) BufferedReader 이용
+     */
+    public static void exam01_4() {
+        // 테스트 : Ch14Exam.java 150
+        try (BufferedReader bfReader = new BufferedReader(new InputStreamReader(System.in)); ) {
+            
+            // 입력된 값 나누기
+            String[] input = bfReader.readLine().split(" +");
+            
+            File file = new File(FILE_PATH, input[0]);
+            
+            // 확장자 입력 안한 경우 자동으로 '.java'로 되게 
+            if (file.getName().lastIndexOf(".") == -1) {
+                file = new File(FILE_PATH, input[0] + FILE_EXTENSION); 
+            }
+
+            BufferedReader bufferReader = new BufferedReader(new FileReader(file));
+            
+//            bufferReader.lines().forEach(System.out::println);
+            
+            // lineNum 증가하지 않음
+            /*
+            bufferReader.lines().forEach(i -> {
+                int lineNum = 1;
+                System.out.println(lineNum + ":" + i);
+                ++lineNum;
+            });
+            */
+            
+            /**
+             * AtomicInteger : int형 래퍼 클래스로 멀티스레드 환경에서 동시성을 보장함
+             */
+            AtomicInteger lineNum = new AtomicInteger(1);
+
+            bufferReader.lines().forEach(i -> {
+                // 현재값을 가져오고 자동 증가
+                if (lineNum.get() <= Integer.parseInt(input[1])) {
+                    System.out.println(lineNum.getAndIncrement() + ":" + i);
+                }
+            });
+            
+            bufferReader.close();
+        }
+        catch (IOException e) {
+            logger.error("에러 : {}", e.getMessage());
+        } 
+    }
+    
+    /**
      * <pre>
      * [15-2] 지정된 이진파일의 내용을  실행결과와 같이 16진수로 보여주는 프로그램 (HexaViewer.java)을 작성하라.
      * [Hint] PrintStream과 printf()를 사용하라.
      * </pre>
      *
      * @author : pej 
-     * @date : 2023.03.10
+     * @date : 2023.03.15
      */
     public static void exam02() {
         File file = new File(FILE_PATH, "exam02.dat");
@@ -134,58 +224,146 @@ public class Ch15Exam {
         }
     }
     
-    public static void test() {
-//        byte byteArray[] = {(byte)00, (byte)10, (byte)20, (byte)30, (byte)40};
-        byte[] byteArray = { (byte) 202, (byte) 254, (byte) 186, (byte)190, 0, 0, 0, 49, 0 };
-            String hexString = 
-                javax.xml.bind.DatatypeConverter
-                .printHexBinary(byteArray);
-            System.out.println("Byte Array: "); 
-            System.out.println(Arrays.toString(byteArray));
-            System.out.println("Hex String Conversion: "
-                               + hexString);
-    }
-    
+    /**
+     * <pre>
+     * [15-3] 다음은 디렉토리의 요약정보를 보여주는 프로그램이다. 
+     * 파일의 개수, 디렉토리의 개수, 파일의 총 크기를 계산하는 countFiles()를 완성하시오.
+     * </pre>
+     *
+     * @author : pej 
+     * @date : 2023.03.15
+     */
     static int totalFiles = 0; 
     static int totalDirs = 0; 
     static int totalSize = 0;
     
-    /**
-     * <pre>
-     * [15-3] 다음은 디렉토리의 요약정보를 보여주는 프로그램이다. 파일의 개수, 디렉토리의 개수, 파일의 총 크기를 계산하는 countFiles()를 완성하시오.
-     * </pre>
-     *
-     * @author : pej 
-     * @date : 2023.03.10
-     */
-    public static void exam03(String[] arr) {
-        if (arr.length != 1) {
-            System.out.println("USAGE : java DirectoryInfoTest DIRECTORY"); 
-            System.exit(0);
+    public static void exam03() {
+        // 경로 테스트 : D:\\project\\workspace\\java-study\\source\\JavaStudy\\src\\exam
+        try (BufferedReader bfReader = new BufferedReader(new InputStreamReader(System.in))) {
+            String[] arr = bfReader.readLine().split(" +");
+            
+            if (arr.length != 1) {
+                System.out.println("USAGE : java DirectoryInfoTest DIRECTORY");
+                System.exit(0);
+            }
+            
+            File dir = new File(arr[0]); 
+            
+            if (!dir.exists() || !dir.isDirectory()) {
+                System.out.println("유효하지 않은 디렉토리입니다."); 
+                System.exit(0);
+            }
+            
+            countFiles(dir); 
+            countFiles2(dir);
+            countFiles3(dir);
+            
+            System.out.println();
+            System.out.println("총 " + totalFiles + "개의 파일");
+            System.out.println("총 " + totalDirs + "개의 디렉토리");
+            System.out.println("크기 " + totalSize + " bytes");
+//            System.out.println("크기 " + String.format("%.2f", totalSize / 1024.0) + " KB");
+            
+        } catch (IOException e) {
+            logger.error("에러 : {}", e.getMessage());
         }
-        
-        File dir = new File(arr[0]); 
-        
-        if (!dir.exists() || !dir.isDirectory()) {
-            System.out.println("유효하지 않은 디렉토리입니다."); 
-            System.exit(0);
-        }
-        countFiles(dir); 
-        System.out.println();
-        System.out.println("총 " + totalFiles + "개의 파일");
-        System.out.println("총 " + totalDirs + "개의 디렉토리"); System.out.println("크기 " + totalSize + " bytes");
     }
     
     public static void countFiles(File dir) {
         /*
         (1) 아래의 로직에 맞게 코드를 작성하시오.
-         1. dir의 파일목록(File[])을 얻어온다.
-         2. 얻어온 파일목록의 파일 중에서... 디렉토리이면, totalDirs의 값을 증가시키고 countFiles()를 재귀호출한다.
-         3. 파일이면, totalFiles를 증가시키고 파일의 크기를 totalSize에 더한다.
+           1. dir의 파일목록(File[])을 얻어온다.
+           2. 얻어온 파일목록의 파일 중에서... 디렉토리이면, totalDirs의 값을 증가시키고 countFiles()를 재귀호출한다.
+           3. 파일이면, totalFiles를 증가시키고 파일의 크기를 totalSize에 더한다.
         */
+        
+        File[] fileList = dir.listFiles();
+        
+        for (File file : fileList) {
+            if (file.isDirectory()) {
+                totalDirs++;
+//                 logger.debug("폴더명 : {}", file.getAbsolutePath());
+                
+                // 폴더인 경우 자기 자신을 다시 호출해서 파일 개수와 사이즈를 구함
+                File temp = new File(file.getAbsolutePath());
+                countFiles(temp);
+            } else if (file.isFile()) {
+                totalFiles++;
+                totalSize += file.length();
+//                logger.debug("파일명 : {} / 파일사이즈 : {}", file.getName(), file.length());
+//                logger.debug("totalSize : {}", totalSize);
+            }
+        }
+    }
+    
+    /**
+     * 방법2) Files.walk() 이용 :모든 파일, 폴더(디렉토리) 탐색
+     */
+    public static void countFiles2(File dir) {
+        int totalFiles = 0;    // 파일 개수 합계
+        int totalDirs = 0;     // 경로 개수 합계
+        int totalSize = 0;     // 파일 사이즈 합계
+        
+        Path dirPath = Paths.get(dir.getAbsolutePath());
+        
+        try {
+//            Files.walk(dirPath).filter(file -> file.toFile().isDirectory()).forEach(System.out::println);
+            totalDirs = Files.walk(dirPath).filter(file -> file.toFile().isDirectory()).mapToInt(i -> 1).sum();
+            totalFiles = Files.walk(dirPath).filter(file -> file.toFile().isFile()).mapToInt(i -> 1).sum();
+            totalSize = Files.walk(dirPath).filter(file -> file.toFile().isFile()).mapToInt(i -> (int) i.toFile().length()).sum();
+        } catch (IOException e) {
+            logger.error("에러 : {}", e.getMessage());
+        }
+        
+        StringBuffer sb = new StringBuffer();
+        sb.append("\n");
+        sb.append("=========countFiles2=========");
+        sb.append("\n");
+        sb.append("총 " + totalFiles + "개의 파일");
+        sb.append("\n");
+        sb.append("총 " + totalDirs + "개의 디렉토리");
+        sb.append("\n");
+        sb.append("크기 " + totalSize + " bytes");
+        sb.append("\n");
+        
+        logger.debug(sb.toString());
+    }
+    
+    /**
+     * 방법3) FileUtils 이용 : Apache Commons IO 
+     */
+    public static void countFiles3(File dir) {
+        int totalFiles = 0;    // 파일 개수 합계
+        int totalDirs = 0;     // 경로 개수 합계
+        int totalSize = 0;     // 파일 사이즈 합계
+        
+        // 경로에 해당하는 모든 디렉토리, 파일 조회
+        List<File> fileList = (List<File>) FileUtils.listFilesAndDirs(dir, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
+        
+        for (File file : fileList) {
+            if ( FileUtils.isDirectory(file) ) {
+                totalDirs++;
+            } else if (file.isFile()) {
+                totalFiles++;
+                totalSize += file.length();
+            }
+        }
+        
+        StringBuffer sb = new StringBuffer();
+        sb.append("\n");
+        sb.append("=========countFiles3=========");
+        sb.append("\n");
+        sb.append("총 " + totalFiles + "개의 파일");
+        sb.append("\n");
+        sb.append("총 " + totalDirs + "개의 디렉토리");
+        sb.append("\n");
+        sb.append("크기 " + totalSize + " bytes");
+        sb.append("\n");
+        
+        logger.debug(sb.toString());
     }
 
     public static void main(String[] args) {
-        exam02();
+        exam01_3();
     }
 }
