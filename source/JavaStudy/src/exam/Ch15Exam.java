@@ -2,9 +2,13 @@ package exam;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.util.Arrays;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -98,8 +102,48 @@ public class Ch15Exam {
      * @author : pej 
      * @date : 2023.03.10
      */
-    public void exam02() {
+    public static void exam02() {
+        File file = new File(FILE_PATH, "exam02.dat");
         
+        // byte 배열은 이진법
+        byte[] byteArr = { 
+            (byte) 202, (byte) 254, (byte) 186, (byte)190, 0, 0, 0, 49, 0, 68, 10, 0, 12, 30, 9,
+            0, 31, 0, 32, 8, 0, 33, 10, 0, 8, 0, 34, 10, 0, 31, 0
+        };
+
+        try (FileOutputStream fileOut = new FileOutputStream(file);
+             FileInputStream fileIn = new FileInputStream(file);
+             // 이렇게 하면 sysout으로 출력할 필요 없이 자동으로 콘솔창에 나옴
+             PrintStream printOut = new PrintStream(System.out); ) {
+            
+            // 파일에 내용 추가
+            fileOut.write(byteArr);
+            
+            // 파일 읽기
+            int data = 0;
+            while ( (data = fileIn.read()) != -1 ) {
+                /**
+                 * %02x : 소문자로 나옴
+                 * %02X : 대문자로 나옴
+                 */
+                printOut.printf("%02X ", data);
+            }
+            
+        } catch (IOException e) {
+            logger.error("에러 : {}", e.getMessage());
+        }
+    }
+    
+    public static void test() {
+//        byte byteArray[] = {(byte)00, (byte)10, (byte)20, (byte)30, (byte)40};
+        byte[] byteArray = { (byte) 202, (byte) 254, (byte) 186, (byte)190, 0, 0, 0, 49, 0 };
+            String hexString = 
+                javax.xml.bind.DatatypeConverter
+                .printHexBinary(byteArray);
+            System.out.println("Byte Array: "); 
+            System.out.println(Arrays.toString(byteArray));
+            System.out.println("Hex String Conversion: "
+                               + hexString);
     }
     
     static int totalFiles = 0; 
@@ -142,7 +186,6 @@ public class Ch15Exam {
     }
 
     public static void main(String[] args) {
-        String[] strArr = { };
-        exam03(args);
+        exam02();
     }
 }
