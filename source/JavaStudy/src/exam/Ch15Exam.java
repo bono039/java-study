@@ -8,13 +8,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Stream;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
@@ -254,6 +256,10 @@ public class Ch15Exam {
                 System.exit(0);
             }
             
+            /**
+             * countFiles() : 입력받은 디렉토리는 빼고 디렉토리 개수를 구함
+             * countFiles2(), countFiles3() : 입력받은 디렉토리도 포함해서 디렉토리 개수를 구함
+             */
             countFiles(dir); 
             countFiles2(dir);
             countFiles3(dir);
@@ -308,7 +314,7 @@ public class Ch15Exam {
         
         try {
 //            Files.walk(dirPath).filter(file -> file.toFile().isDirectory()).forEach(System.out::println);
-            totalDirs = Files.walk(dirPath).filter(file -> file.toFile().isDirectory()).mapToInt(i -> 1).sum();
+            totalDirs = Files.walk(dirPath).filter(file -> file.toFile().isDirectory()).mapToInt(i -> 1).sum() - 1;
             totalFiles = Files.walk(dirPath).filter(file -> file.toFile().isFile()).mapToInt(i -> 1).sum();
             totalSize = Files.walk(dirPath).filter(file -> file.toFile().isFile()).mapToInt(i -> (int) i.toFile().length()).sum();
         } catch (IOException e) {
@@ -355,15 +361,88 @@ public class Ch15Exam {
         sb.append("\n");
         sb.append("총 " + totalFiles + "개의 파일");
         sb.append("\n");
-        sb.append("총 " + totalDirs + "개의 디렉토리");
+        sb.append("총 " + (totalDirs - 1) + "개의 디렉토리");
         sb.append("\n");
         sb.append("크기 " + totalSize + " bytes");
         sb.append("\n");
         
         logger.debug(sb.toString());
     }
+    
+    /**
+     * <pre>
+     * [15-4] 커맨드라인으로 부터 여러 파일의 이름을 입력받고, 이 파일들을 순서대로 합쳐 서 새로운 파일을 만들어 내는 프로그램(FileMergeTest.java)을 작성하시오.
+     * 단, 합칠 파 일의 개수에는 제한을 두지 않는다.
+     * </pre>
+     *
+     * @author : pej 
+     * @date : 2023.03.16
+     */
+    public static void exam04() {
+        // 테스트 : java FileMergeTest result.txt test1.txt test2.txt test3.txt
+        
+        Path originPath = Paths.get("D:", "project", "workspace", "java-study", "source", "JavaStudy", "src", "exam", "test");
+
+        System.out.println("USAGE: java FileMergeTest MERGE_FILENAME FILENAME1 FILENAME2 ...");
+        
+        try (BufferedReader bfReader = new BufferedReader(new InputStreamReader(System.in))) {
+            String[] arr = bfReader.readLine().split(" +");
+            
+            if ( "type".equals(arr[0]) ) {
+                Path readPath = originPath.resolve(arr[1]);
+                // 파일이 있는 경우에만
+                if (Files.exists(readPath)) {
+                    try (FileChannel channel = FileChannel.open(readPath, StandardOpenOption.READ)) {
+                       // allocate() : 버퍼 할당
+                       ByteBuffer byteBuffer = ByteBuffer.allocate((int) Files.size(readPath));
+
+                       channel.read(byteBuffer);
+                       
+                       // 시작 위치 초기화
+                       byteBuffer.flip();
+
+                       System.out.println(Charset.defaultCharset().decode(byteBuffer).toString());
+                    } catch (IOException e) {
+                        logger.error("파일 읽기 에러 : {}", e.getMessage());
+                    }
+                }
+            } else {
+                Path mergeFile = originPath.resolve(arr[2]);
+                
+                try {
+                    // 복사할 파일이 없으면 생성
+                    if (!Files.exists(mergeFile)) {
+                        Files.createFile(mergeFile);
+                    }
+                    
+                    FileOutputStream fileOut = new FileOutputStream(mergeFile.toFile());
+                    FileInputStream fileIn = null;
+                    
+                    for (int i=3; i<arr.length; i++) {
+                        fileIn = new FileInputStream(originPath.resolve(arr[i]).toFile());
+                        
+                        FileChannel channelIn =  fileIn.getChannel();
+                        FileChannel channelOut = fileOut.getChannel();
+                         
+                        long size = channelIn.size();
+                        channelIn.transferTo(0, size, channelOut);
+                    }
+                    
+                    fileOut.close();
+                    fileIn.close();
+                    
+                } catch (IOException e) {
+                    logger.error("에러 : {}", e.getMessage());
+                }
+                
+                System.out.println("파일 합치기 성공");
+            }
+        } catch (IOException e) {
+            logger.error("에러 : {}", e.getMessage());
+        }
+    }
 
     public static void main(String[] args) {
-        exam01_3();
+        exam04();
     }
 }
