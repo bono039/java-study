@@ -126,10 +126,18 @@ public class Ch15Exam {
             
             Files.lines(path).forEach(i -> {
                 // 현재값을 가져오고 자동 증가
+                // getAndIncrement() : 상수여서 람다식에서 값 증가 가능
                 if (lineNum.get() <= Integer.parseInt(input[1])) {
                     System.out.println(lineNum.getAndIncrement() + ":" + i);
                 }
             });
+            
+            // 왜 a의 값이 안 바뀌지...?
+//            Files.lines(path).forEach(i -> {
+//              int a = 1;
+//              System.out.println(a + ":" + i);
+//              a++;
+//            });
         }
         catch (IOException e) {
             logger.error("에러 : {}", e.getMessage());
