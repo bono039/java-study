@@ -32,7 +32,7 @@ Java Study
 | 7 | 챕터12. 지네릭스, 열거형, 애너테이션 | 2023-01-16 | 2023-01-29 | :white_check_mark: | :white_check_mark: |
 | 8 | 챕터13. 쓰레드(Thread) | 2023-01-30 | 2023-02-19 |:white_check_mark: | :white_check_mark: |
 | 9 | 챕터14. 람다와 스트림 | 2023-02-20 | 2023-03-05 | :white_check_mark: | :white_check_mark: |
-| 10 | 챕터15. 입출력(I/O) | 2023-03-06 | 2023-03-19 | :white_check_mark: | - |
+| 10 | 챕터15. 입출력(I/O) | 2023-03-06 | 2023-03-19 | :white_check_mark: | :white_check_mark: |
 | 11 | 챕터16. 네트워킹 | 2023-03-20 | 2023-03-26 | - | - |
 
 ## :arrow_forward: 기타
