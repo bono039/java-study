@@ -33,7 +33,7 @@ Java Study
 | 8 | 챕터13. 쓰레드(Thread) | 2023-01-30 | 2023-02-19 |:white_check_mark: | :white_check_mark: |
 | 9 | 챕터14. 람다와 스트림 | 2023-02-20 | 2023-03-05 | :white_check_mark: | :white_check_mark: |
 | 10 | 챕터15. 입출력(I/O) | 2023-03-06 | 2023-03-19 | :white_check_mark: | :white_check_mark: |
-| 11 | 챕터16. 네트워킹 | 2023-03-20 | 2023-03-26 | - | - |
+| 11 | 챕터16. 네트워킹 | 2023-03-20 | 2023-03-26 | - | :white_check_mark: |
 
 ## :arrow_forward: 기타
 + Java의 정석 소스 : https://github.com/castello/javajungsuk3
