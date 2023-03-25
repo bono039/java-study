@@ -1,3 +1,5 @@
+package exam;
+
 import java.awt.BorderLayout;
 import java.awt.Frame;
 import java.awt.Panel;
@@ -25,28 +27,28 @@ public class Exam16_server {
 		// TODO Auto-generated method stub
 		// server side
 		
-		//exam16_1();
-		//exam16_3();
+//		exam16_1();
+		exam16_3();
 		
-		//ÀÌÇÏ 16_4 ½ÇÇà¹®
-		if(args.length != 1) {
-			System.out.println("USAGE : java ChatServer NICKNAME");
-			System.exit(0);
-		}
-		ChatServer chatWin = new ChatServer(args[0]);
-		chatWin.startServer();
+		//ï¿½ï¿½ï¿½ï¿½ 16_4 ï¿½ï¿½ï¿½à¹®
+//		if(args.length != 1) {
+//			System.out.println("USAGE : java ChatServer NICKNAME");
+//			System.exit(0);
+//		}
+//		ChatServer chatWin = new ChatServer(args[0]);
+//		chatWin.startServer();
 	}
 	
 	static void exam16_1() {
-		//IPÁÖ¼Ò¿Í ¼­ºê³Ý ¸¶½ºÅ©¸¦ ÀÌ¿ëÇÏ¿©(ºñÆ®¿¬»ê)
-		//³×Æ®¿öÅ© ÁÖ¼Ò¿Í È£½ºÆ® ÁÖ¼Ò¸¦ ±¸ÇÏ¿© Ãâ·ÂÇÏ´Â ÇÁ·Î±×·¥ ÀÛ¼º
+		//IPï¿½Ö¼Ò¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å©ï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½Ï¿ï¿½(ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½)
+		//ï¿½ï¿½Æ®ï¿½ï¿½Å© ï¿½Ö¼Ò¿ï¿½ È£ï¿½ï¿½Æ® ï¿½Ö¼Ò¸ï¿½ ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½Î±×·ï¿½ ï¿½Û¼ï¿½
 		int[] ipArr = {192, 168, 10, 100};
 		int[] subNetArr = {255, 255, 255, 0};
 		
 		int[] NetArr = new int[4];
 		int[] HostArr = new int[4];
 		
-		//³×Æ®¿öÅ© ÁÖ¼Ò °è»ê
+		//ï¿½ï¿½Æ®ï¿½ï¿½Å© ï¿½Ö¼ï¿½ ï¿½ï¿½ï¿½
 		for(int i = 0; i < ipArr.length; i++) {
 			int tmp = (byte)ipArr[i] & (byte)subNetArr[i];
 			
@@ -55,7 +57,7 @@ public class Exam16_server {
 			NetArr[i] = tmp;
 		}
 		
-		//È£½ºÆ® ÁÖ¼Ò °è»ê
+		//È£ï¿½ï¿½Æ® ï¿½Ö¼ï¿½ ï¿½ï¿½ï¿½
 		for(int i = 0; i < ipArr.length; i++) {
 			int tmp = (byte)ipArr[i] & ~(byte)subNetArr[i];
 			
@@ -64,13 +66,13 @@ public class Exam16_server {
 			HostArr[i] = tmp;
 		}
 		
-		//°á°ú Ãâ·Â
-		System.out.println("³×Æ®¿öÅ© ÁÖ¼Ò: " + Arrays.toString(NetArr));
-		System.out.println("È£½ºÆ® ÁÖ¼Ò: " + Arrays.toString(HostArr));
+		//ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+		System.out.println("ï¿½ï¿½Æ®ï¿½ï¿½Å© ï¿½Ö¼ï¿½: " + Arrays.toString(NetArr));
+		System.out.println("È£ï¿½ï¿½Æ® ï¿½Ö¼ï¿½: " + Arrays.toString(HostArr));
 	}//exam1 end
 	
 	static void exam16_3() {
-		//URLÀ» ÀÔ·ÂÇÑ µÚ enter Å°¸¦ ´©¸£¸é ÇØ´ç ÆäÀÌÁöÀÇ ¼Ò½º¸¦ º¸¿©ÁÖ´Â ÇÁ·Î±×·¥
+		//URLï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½ï¿½ enter Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Î±×·ï¿½
 		SourceViewer mainWin = new SourceViewer("Source Viewer");
 	}//exam3 end
 	
@@ -110,11 +112,11 @@ class SourceViewer extends Frame {
 		ta.setText("");
 		try {
 			if(!address.startsWith("https://")) address = "https://"+address;
-			/* (1) ¾Ë¸ÂÀº ÄÚµå¸¦ ³Ö¾î ¿Ï¼ºÇÏ½Ã¿À. */
+			/* (1) ï¿½Ë¸ï¿½ï¿½ï¿½ ï¿½Úµå¸¦ ï¿½Ö¾ï¿½ ï¿½Ï¼ï¿½ï¿½Ï½Ã¿ï¿½. */
 			url = new URL(address);
 			
 			input = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
-			//openStream Àº URLConnection ÀÇ openConnection() °ú getInputStream() ÇÑ °Í°ú °°´Ù
+			//openStream ï¿½ï¿½ URLConnection ï¿½ï¿½ openConnection() ï¿½ï¿½ getInputStream() ï¿½ï¿½ ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½
 			
 			while((line = input.readLine()) != null) {
 				ta.append(line + "\n");
@@ -123,7 +125,7 @@ class SourceViewer extends Frame {
 			input.close();
 			
 		} catch(Exception e) {
-			ta.setText("À¯È¿ÇÏÁö ¾ÊÀº URLÀÔ´Ï´Ù.");
+			ta.setText("ï¿½ï¿½È¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ URLï¿½Ô´Ï´ï¿½.");
 		}
 	} // displaySource()
 	
@@ -172,21 +174,21 @@ class ChatServer extends Frame {
 		Socket socket = null;
 		
 		try {
-		/* (1) ¾Æ·¡ÀÇ ·ÎÁ÷¿¡ ¸Â°Ô ÄÚµå¸¦ ÀÛ¼ºÇÏ½Ã¿À.
-		1.	¼­ºñ¼ÒÄÏÀ» »ý¼ºÇÏ¿© 7777¹ø Æ÷Æ®¿Í °áÇÕ½ÃÅ²´Ù.
-		2.	ta¿¡ "¼­¹ö°¡ ÁØºñµÇ¾ú½À´Ï´Ù."¶ó°í º¸¿©ÁØ´Ù.
-		3.	»ó´ë¹æÀÇ ¿¬°áÀ» ±â´Ù¸°´Ù.
-		4.	ta¿¡ "»ó´ë¹æ°ú ¿¬°áµÇ¾ú½À´Ï´Ù."¶ó°í º¸¿©ÁØ´Ù.
-		    ta.append("\r\n" +"»ó´ë¹æ°ú ¿¬°áµÇ¾ú½À´Ï´Ù.");
-		5.	¿¬°áµÈ »ó´ë¹æ ¼ÒÄÏÀÇ ÀÔ·Â½ºÆ®¸²°ú Ãâ·Â½ºÆ®¸³À» ¾ò¾î¿Â´Ù.
-		6.	¹Ýº¹¹®À» ÀÌ¿ëÇØ¼­ ÀÔ·Â½ºÆ®¸²ÀÌ nullÀÌ ¾Æ´Ñ µ¿¾È ÀÔ·Â½ºÆ®¸²À¸·ÎºÎÅÍ µ¥ÀÌÅÍ¸¦ ÀÐ¾î¼­ º¯¼ö msg¿¡ ÀúÀåÇÑ´Ù. */
+		/* (1) ï¿½Æ·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â°ï¿½ ï¿½Úµå¸¦ ï¿½Û¼ï¿½ï¿½Ï½Ã¿ï¿½.
+		1.	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ 7777ï¿½ï¿½ ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½Õ½ï¿½Å²ï¿½ï¿½.
+		2.	taï¿½ï¿½ "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Øºï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½."ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
+		3.	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½.
+		4.	taï¿½ï¿½ "ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½."ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
+		    ta.append("\r\n" +"ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
+		5.	ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â´ï¿½.
+		6.	ï¿½Ýºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½Ø¼ï¿½ ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ nullï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½ï¿½ï¿½ msgï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. */
 			
 			serverSocket = new ServerSocket(7777);
-			ta.append("===¼­¹ö°¡ ÁØºñµÇ¾ú½À´Ï´Ù===");
+			ta.append("===ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Øºï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½===");
 			
 			socket = serverSocket.accept();
 			
-			if (socket.isConnected()) ta.append("\r\n" +"»ó´ë¹æ°ú ¿¬°áµÇ¾ú½À´Ï´Ù.");
+			if (socket.isConnected()) ta.append("\r\n" +"ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 			
 			in = new DataInputStream(socket.getInputStream());
 			out = new DataOutputStream(socket.getOutputStream());
@@ -205,7 +207,7 @@ class ChatServer extends Frame {
 		public void actionPerformed(ActionEvent ae) {
 			String msg = tf.getText();
 			if("".equals(msg)) return;
-			/* (2) ¾Ë¸ÂÀº ÄÚµå¸¦ ³Ö¾î ¿Ï¼ºÇÏ½Ã¿À. */
+			/* (2) ï¿½Ë¸ï¿½ï¿½ï¿½ ï¿½Úµå¸¦ ï¿½Ö¾ï¿½ ï¿½Ï¼ï¿½ï¿½Ï½Ã¿ï¿½. */
 			if (out != null) {
 				try {
 					out.writeUTF(msg);

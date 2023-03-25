@@ -13,9 +13,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.Socket;
 
-public class ChatClient extends Frame {
+public class ChatClient2 extends Frame {
     private static final long serialVersionUID = 1L;
 
     String nickname = "";
@@ -30,7 +31,7 @@ public class ChatClient extends Frame {
     TextField tf = new TextField();
 
 
-    ChatClient(String nickname, String serverIp, String serverPort) {
+    ChatClient2(String nickname, String serverIp, String serverPort) {
     
         super("Chatting with " + serverIp + ":" + serverPort);
     
@@ -62,6 +63,7 @@ public class ChatClient extends Frame {
         tf.requestFocus();
     }
 
+    @SuppressWarnings("resource")
     void startClient() {
         String msg = "";
         
@@ -75,6 +77,7 @@ public class ChatClient extends Frame {
                 4. 반복문을 이용해서 입력스트림이 null이 아닌 동안 입력스트림으로부터 데이터를 읽어서 변수 msg에 저장한다.
              */ 
             // 1. 소켓을 생성하여 serverIp의 serverPort에 연결한다.
+            // IP 미입력 시 "localhost"가 기본값
             Socket socket = new Socket(serverIp, serverPort);
             
             // 2. ta에 "상대방과 연결되었습니다."라고 보여준다  .
@@ -96,11 +99,11 @@ public class ChatClient extends Frame {
 
     public static void main(String[] args) {
         if (args.length != 3) {
-            System.out.println("USAGE : java ChatClient NICKNAME SERVER_IP SERVER_PORT");
+            System.out.println("USAGE : java ChatClient2 NICKNAME SERVER_IP SERVER_PORT");
             System.exit(0);
         }
 
-        ChatClient chatWin = new ChatClient(args[0], args[1], args[2]);
+        ChatClient2 chatWin = new ChatClient2(args[0], args[1], args[2]);
         chatWin.startClient();
     } // main 
 
@@ -110,6 +113,14 @@ public class ChatClient extends Frame {
             if ("".equals(msg)) return;
 
             /* (4) 알맞은 코드를 넣어 완성하시오. */ 
+            try {
+                if (out != null) {
+                    out.writeUTF(nickname +">"+ msg);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            
             ta.append("\r\n" + nickname + ">" + msg);
             tf.setText("");
         }

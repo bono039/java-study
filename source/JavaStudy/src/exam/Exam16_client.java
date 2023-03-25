@@ -1,3 +1,5 @@
+package exam;
+
 import java.awt.BorderLayout;
 import java.awt.Frame;
 import java.awt.Panel;
@@ -21,7 +23,7 @@ public class Exam16_client {
 		// TODO Auto-generated method stub
 		//client side
 
-		//ÀÌÇÏ 16_4 ½ÇÇà¹®
+		//ï¿½ï¿½ï¿½ï¿½ 16_4 ï¿½ï¿½ï¿½à¹®
 		if(args.length != 3) {
 			System.out.println("USAGE : java ChatClient NICKNAME SERVER_IP SERVER_PORT");
 			System.exit(0);
@@ -78,15 +80,16 @@ class ChatClient extends Frame {
 	
 	void startClient() {
 		try {
-		/* (3) ¾Æ·¡ÀÇ ·ÎÁ÷¿¡ ¸Â°Ô ÄÚµå¸¦ ÀÛ¼ºÇÏ½Ã¿À.
-		1. ¼ÒÄÏÀ» »ý¼ºÇÏ¿© serverIpÀÇ serverPort¿¡ ¿¬°áÇÑ´Ù.
-		2. ta¿¡ "»ó´ë¹æ°ú ¿¬°áµÇ¾ú½À´Ï´Ù."¶ó°í º¸¿©ÁØ´Ù.
-		   ta.setText("»ó´ë¹æ°ú ¿¬°áµÇ¾ú½À´Ï´Ù.");
-		3. ¿¬°áµÈ »ó´ë¹æ ¼ÒÄÏÀÇ ÀÔ·Â½ºÆ®¸²°ú Ãâ·Â½ºÆ®¸³À» ¾ò¾î¿Â´Ù.
-		4. ¹Ýº¹¹®À» ÀÌ¿ëÇØ¼­ ÀÔ·Â½ºÆ®¸²ÀÌ nullÀÌ ¾Æ´Ñ µ¿¾È ÀÔ·Â½ºÆ®¸²À¸·ÎºÎÅÍ µ¥ÀÌÅÍ¸¦ ÀÐ¾î¼­ º¯¼ö msg¿¡ ÀúÀåÇÑ´Ù. */
+		/* (3) ï¿½Æ·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â°ï¿½ ï¿½Úµå¸¦ ï¿½Û¼ï¿½ï¿½Ï½Ã¿ï¿½.
+		1. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ serverIpï¿½ï¿½ server
+		Portï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+		2. taï¿½ï¿½ "ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½."ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
+		   ta.setText("ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
+		3. ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â´ï¿½.
+		4. ï¿½Ýºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½Ø¼ï¿½ ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ nullï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½ï¿½ï¿½ msgï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. */
 			
 			Socket socket = new Socket(serverIp, serverPort);
-			if (socket.isConnected()) ta.append("»ó´ë¹æ°ú ¿¬°áµÇ¾ú½À´Ï´Ù.");
+			if (socket.isConnected()) ta.append("ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 			
 			in = new DataInputStream(socket.getInputStream());
 			out = new DataOutputStream(socket.getOutputStream());
@@ -97,7 +100,7 @@ class ChatClient extends Frame {
 			}
 			
 		} catch(ConnectException ce) {
-			ta.setText("»ó´ë¹æ°ú ¿¬°áÇÒ ¼ö ¾ø½À´Ï´Ù.");
+			ta.setText("ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 			ce.printStackTrace();
 		} catch(IOException ie) {
 			ie.printStackTrace();
@@ -110,7 +113,7 @@ class ChatClient extends Frame {
 		public void actionPerformed(ActionEvent ae) {
 			String msg = tf.getText();
 			if("".equals(msg)) return;
-				/* (4) ¾Ë¸ÂÀº ÄÚµå¸¦ ³Ö¾î ¿Ï¼ºÇÏ½Ã¿À. */
+				/* (4) ï¿½Ë¸ï¿½ï¿½ï¿½ ï¿½Úµå¸¦ ï¿½Ö¾ï¿½ ï¿½Ï¼ï¿½ï¿½Ï½Ã¿ï¿½. */
 			if (out != null) {
 				try {
 					out.writeUTF(msg);

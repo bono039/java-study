@@ -14,10 +14,11 @@ import java.awt.event.WindowEvent;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class ChatServer extends Frame {
+public class ChatServer2 extends Frame {
     private static final long serialVersionUID = 1L;
 
     String nickname = "";
@@ -29,7 +30,7 @@ public class ChatServer extends Frame {
     TextArea ta = new TextArea();
     TextField tf = new TextField();
     
-    ChatServer(String nickname) { 
+    ChatServer2(String nickname) { 
         super("Chatting"); 
         this.nickname = nickname;
 
@@ -77,7 +78,10 @@ public class ChatServer extends Frame {
             */
             
             // 1. 서버소켓을 생성하여 7777번 포트와 결합시킨다.
-            serverSocket = new ServerSocket(7777);
+            // IP 미입력 시 "localhost"가 기본값.
+//            serverSocket = new ServerSocket(7777);
+            serverSocket = new ServerSocket();
+            serverSocket.bind(new InetSocketAddress("127.0.0.1", 80));
             
             // 2. ta에 "서버가 준비되었습니다."라고 보여준다.
             ta.setText("서버가 준비되었습니다.");
@@ -105,11 +109,11 @@ public class ChatServer extends Frame {
 
     public static void main(String[] args) {
         if (args.length != 1) {
-            System.out.println("USAGE : java ChatServer NICKNAME"); 
+            System.out.println("USAGE : java ChatServer2 NICKNAME"); 
             System.exit(0);
         }
         
-        ChatServer chatWin = new ChatServer(args[0]); 
+        ChatServer2 chatWin = new ChatServer2(args[0]); 
         chatWin.startServer();
     }
     
@@ -122,14 +126,14 @@ public class ChatServer extends Frame {
             /*
             (2) 알맞은 코드를 넣어 완성하시오.
             */
-            while (out != null) {
-                try {
-                    out.writeUTF("\r\n" + nickname +">"+ msg);
-                } catch (IOException e) {
-                    e.printStackTrace();
+            try {
+                if (out != null) {
+                    out.writeUTF(nickname +">"+ msg);
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            
+           
             ta.append("\r\n" + nickname +">"+ msg);
             tf.setText("");
         }

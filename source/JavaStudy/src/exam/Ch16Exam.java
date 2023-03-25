@@ -9,14 +9,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.net.Inet4Address;
-import java.net.InetAddress;
 import java.net.URL;
-import java.net.UnknownHostException;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.Arrays;
-import java.util.stream.Stream;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,6 +21,7 @@ import org.apache.logging.log4j.Logger;
  * @date : 2023.03.21
  */
 public class Ch16Exam {
+    @SuppressWarnings("unused")
     private static Logger logger = LogManager.getLogger(Ch16Exam.class);
     
     /**
@@ -199,6 +193,6 @@ public class Ch16Exam {
     }
 
     public static void main(String[] args) {
-        exam01();
+        exam03();
     }
 }
