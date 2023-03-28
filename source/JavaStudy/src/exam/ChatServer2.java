@@ -79,9 +79,9 @@ public class ChatServer2 extends Frame {
             
             // 1. 서버소켓을 생성하여 7777번 포트와 결합시킨다.
             // IP 미입력 시 "localhost"가 기본값.
-//            serverSocket = new ServerSocket(7777);
-            serverSocket = new ServerSocket();
-            serverSocket.bind(new InetSocketAddress("127.0.0.1", 80));
+            serverSocket = new ServerSocket(7777);
+//            serverSocket = new ServerSocket();
+//            serverSocket.bind(new InetSocketAddress("127.0.0.1", 80));
             
             // 2. ta에 "서버가 준비되었습니다."라고 보여준다.
             ta.setText("서버가 준비되었습니다.");
