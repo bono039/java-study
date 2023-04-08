@@ -189,7 +189,7 @@ public class Ch11Exam {
                return Integer.compare(o1.getTotal(), o2.getTotal());
            }
        });
-       
+
        set.add(new TestStudent("테스트1", 100)); 
        set.add(new TestStudent("테스트2", 90)); 
        set.add(new TestStudent("테스트3", 80)); 
