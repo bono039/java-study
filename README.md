@@ -6,7 +6,7 @@ Java의 정석 3판을 기간 내 완독하기 위한 스터디입니다.
 
 ## ✍️ 스터디 개요
 * **주제** : Java
-* **목표** : Java의 정석 완독
+* **목표** : Java의 정석 1회독 완독
 * **기간** : 9주 (2023-12-11 ~ 2024-02-11)
 
 <br/>
@@ -36,5 +36,6 @@ Java의 정석 3판을 기간 내 완독하기 위한 스터디입니다.
 
 ## :arrow_forward: 기타
 + Java의 정석 소스 : https://github.com/castello/javajungsuk3
++ 공부법 : https://thisisprogrammingworld.tistory.com/2
 + 스터디 참고1 : https://github.com/pej4303/java-study
 + 스터디 참고2 : https://github.com/hahyuning/Java-Study
