@@ -36,4 +36,5 @@ Java의 정석 3판을 기간 내 완독하기 위한 스터디입니다.
 
 ## :arrow_forward: 기타
 + Java의 정석 소스 : https://github.com/castello/javajungsuk3
-+ 스터디 참고 : https://github.com/pej4303/java-study
++ 스터디 참고1 : https://github.com/pej4303/java-study
++ 스터디 참고2 : https://github.com/hahyuning/Java-Study
