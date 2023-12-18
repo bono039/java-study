@@ -1,3 +1,26 @@
+## 목차
+[](#--)
+[1. 객체 지향 언어](#1---------)
+
+ [2. 클래스와 객체](#2--------)
+<br/>&nbsp;&nbsp;&nbsp;   [◾ 객체](#----)
+ <br/>&nbsp;&nbsp;&nbsp;   [◾ 인스턴스 생성과 사용](#-------------)
+
+[3. 변수와 메소드](#3--------)
+<br/>&nbsp;&nbsp;&nbsp;    [◾ 변수](#----)
+<br/>&nbsp;&nbsp;&nbsp;    [◾ 메소드](#-----)
+<br/>&nbsp;&nbsp;&nbsp;    [◾ <span style='background-color: #ffdce0'>JVM의 메모리 구조</span>](#---span-style--background-color---ffdce0--jvm----------span-)
+<br/>&nbsp;&nbsp;&nbsp;    [◾ 기본형 vs 참조형 매개 변수](#------vs----------)
+[4. 오버로딩](#4-----)
+<br/>&nbsp;&nbsp;
+[5. 생성자](#5----)
+<br/>&nbsp;&nbsp;  
+[6. 변수의 초기화](#6--------)
+<br/>&nbsp;&nbsp;  
+<br/>&nbsp;&nbsp;
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
 ---
 created: 2023-12-14
 title: 객체지향프로그래밍1_한의정
@@ -167,13 +190,108 @@ aliases: []
 ![img_4.png](img_4.png)
 </details>
 
-(~3.8)
+<br/>
+
+#### ◾ 참조형 반환타입
+> 메소드가 '**_객체의 주소_**' 를 반환한다는 의미
+
+<br/>
+
+#### ◾ 재귀 호출
+> 메소드 내부에서 메소드 자신 다시 호출
+- 종료 위한 조건문 필수!
+- 반복문보다 수행시간 더 걸림 <br/> &nbsp; (∵ 몇 가지 과정이 추가 필요하므로 - 매개변수 복사와 종료 후 복귀할 주소 저장 등 )
+- 장점 : 알아보기 쉬움
+<details>
+    <summary> 예 : 팩토리얼</summary>
+
+    public class FactorialTest {
+
+        public static void main(String[] args) {
+            int result = factorial(4);
+        
+            System.out.println(result);
+        }
+            
+        static int factorial(int n) {            
+            if(n == 1)  return 1;
+            return n * factorial(n - 1);  // 재귀호출
+        }
+    }
+</details>
+
+<br/>
+
+#### ◾ 클래스 메소드(static 메소드) & 인스턴스 메소드
+- **클래스 메소드**
+  > 인스턴스와 관계 없는 메소드
+
+    - 메소드 앞에 <code>**static**</code> 붙음
+        - 멤버변수 中 모든 인스턴스에 공통으로 사용하는 값에 static 붙인다.
+        - 메소드 내에서 인스턴스 변수를 사용하지 않는다면, static 붙이는 걸 고려한다.
+    - 객체 생성 없이 '`클래스명.메소드명`'으로 호출 가능
+  
+<br/>
+  
+- **인스턴스 메소드**
+  > 인스턴스 변수 관련 작업하는 = 메소드 작업 수행하는데 **인스턴스 변수**를 필요로 하는 메소드
+    - 반드시 객체 생성해야 호출 가능 
+
+<br/>
+
+#### ◾ 클래스 멤버와 인스턴스 멤버 간 참조와 호출
+- 클래스 멤버 (클래스 변수와 메소드)가 인스턴스 멤버(인스턴스 변수와 메소드)를 참조·호출하고자 하는 경우, 인스턴스를 생성해야 사용 가능하다.
+- 인스턴스 메소드에서는 호출 없이 바로 인스턴스 변수 사용 가능
+
 
 <br/>
 
 ### 4. 오버로딩
-### 5. 생성자
-### 6. 변수의 초기화
+#### ◾ 정의
+  >한 클래스 내 같은 이름의 메소드를 여러 개 정의하는 것
+
+ &nbsp; = 하나의 메소드명으로 여러 기능 구현
+<br/>
+
+#### ◾ 조건
+  > 1. 메소드명이 같아야 한다.
+  > 2. 매개변수의 개수 / 타입이 달라야 한다.
+
+<br/>
+
+#### ◾ 장점
+  - 여러 메소드들이 1개의 이름으로 정의되어 있어 기억하기 쉽고 오류 가능성을 줄일 수 있다.
+  - 메소드 이름 절약 가능
+
+#### 
+<details>
+    <summary> 가변인자(varargs)와 오버로딩 (동시사용 지양🙅‍♀️)</summary>
+
+> ***가변인자** : 메소드의 매개변수 개수를 동적으로 지정
+- `타입... 변수명`과 같은 형식으로 선언
+- 가변인자는 매개변수 중 <u>**항상 마지막**</u>에 있어야 함
+
+      public PrintStream printf(String format, Object... args) { ... }    // O
+      public PrintStream printf(Object... args, String format) { ... }    // X
+
+- 내부적으로 배열 이용
+
+      String concat(String... str) { ... }
+      System.out.println(concat());          // 인자 없음
+      System.out.println(concat("a"));       // 인자 1개
+      System.out.println(concat("a", "b"));  // 인자 2개
+      System.out.println(concat(new String[]{"a", "b"}));  // 배열도 가능
+
+- 되도록 가변인자 사용한 메소드는 오버로딩하지 말기,,❗
+</details>
+
+<br/>
+
+
+
+### 5. 생성자 (p.291-299)
+### 6. 변수의 초기화 (p.300-307)
+
 
 <br/>
 
