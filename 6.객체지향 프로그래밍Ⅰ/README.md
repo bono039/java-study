@@ -287,11 +287,181 @@ aliases: []
 
 <br/>
 
-
-
 ### 5. 생성자 (p.291-299)
-### 6. 변수의 초기화 (p.300-307)
 
+#### ◾ 정의
+> 인스턴스 변수들 초기화하는 메소드
+
+#### ◾ 조건
+> 1. 생성자 이름 = 클래스 이름이어야 한다.
+> 2. 생성자는 리턴값이 없다.
+
+- 오버로딩 가능 → 매개변수 O/X 생성자
+
+<br/>
+
+#### ◾ 기본 생성자 (default constructor)
+- **_클래스에 생성자가 하나도 없는 경우_**, 컴파일러가 자동으로 기본 생성자 추가해 컴파일
+
+#### ◾ 매개변수가 있는 생성자
+- 매개변수 선언해 인스턴스 생성과 동시에 원하는 값으로 초기화 가능
+
+<br/>
+
+#### ◾ 생성자 간 호출 : this() vs this ⭐
+- 조건
+   > 1. 생성자 이름으로 클래스 이름 대신 **this()** 사용
+   > 2. 한 생성자에서 다른 생성자 호출 시, **반드시 첫 줄에서만** 호출 가능
+
+       Car(String color) {
+           door = 5;                // 첫 번쨰 줄
+
+           Car(color, "auto", 4);   // 에러1. 생성자 2번째 줄에서 다른 생성자 호출
+                                    // 에러2. this(color, "auto", 4); 가 맞음
+       }
+
+<details>
+    <summary> 예 : CarTest2.java</summary>
+
+    class Car {
+        String color;
+        String gearType;
+        int door;
+
+        Car() {
+            this("white", "auto", 4);   // => Car(String color, String gearType, int door) 호출
+        }
+
+        Car(String color) {
+            this(color, "auto", 4);
+        }
+        Car(String color, String gearType, int door) {
+            this.color = color;             // => 인스턴스 변수 앞에 this를 붙임 !
+            this.gearType = gearType;
+            this.door = door;
+        }
+    }
+
+    class CarTest2 {
+        public static void main(String[] args) {
+            Car c1 = new Car();
+            Car c2 = new Car("blue");
+        }
+    }
+</details>
+
+- **this** : _참조변수_. 인스턴스 자신 가리킴. 인스턴스 변수에 접근 가능. 인스턴스 멤버만 사용 가능.인스턴스 주소 저장.
+- **this(), this(매개변수)** : _생성자_. 같은 클래스의 다른 생성자를 호출할 때 사용
+
+<br/>
+
+#### ◾ 생성자 이용한 인스턴스 복사
+- 인스턴스 생성 시 결정사항
+   > 1. **클래스** - 어떤 클래스의 인스턴스를 생성할 것인가?
+   > 2. **생성자** - 선택한 클래스의 어떤 생성자로 인스턴스를 생성할 것인가?
+
+<details>
+    <summary>예</summary>
+
+    Car(Car c) {
+        // = Car(String color, String gearType, int door)
+        this(c.color, c.gearType, c.door);
+    }
+</details>
+
+<br/>
+
+### 6. 변수의 초기화
+- 멤버 변수(클래스 변수, 인스턴스 변수)와 배열의 초기화 → 선택적
+- 지역 변수 초기화 → 반드시 해야 함
+
+| 자료형                  | 기본값         |
+|----------------------|-------------|
+| **boolean**          | false       |
+| **char**             | '\u0000'    |
+| **byte, short, int** | 0           |
+| **long**             | 0L          |
+| **float**            | 0.0f        |
+| **double**           | 0.0d 또는 0.0 |
+| **참조형 변수**           | null        |
+
+<br/>
+
+#### ◾ 멤버 변수 초기화 방법
+1. **명시적 초기화** (explicit initialization)
+   - 변수 선언과 동시에 초기화하는 것
+
+         class Car {
+              int door = 4;           // 기본형 변수의 초기화
+              Engine e = new Engine;  // 참조형 변수의 초기화
+         }
+
+2. **생성자** (constructor)
+3. **초기화 블럭** (initialization block)
+
+   > 초기화 작업이 복잡해 명시적 초기화만으로는 부족한 경우 사용
+   1) **인스턴스 초기화 블럭**
+      - 클래스 내에 블럭 {} 만들고 그 안에 코드 작성.
+      - 인스턴스 생성할 때마다 수행
+      - 생성자보다 먼저 수행
+   2) **클래스 초기화 블럭**
+      - 인스턴스 초기화 블럭 앞에 `static`만 붙이면 됨.
+      - 처음 로딩될 떄 1번만 수행.
+
+<details>
+    <summary>예</summary>
+
+    class BlockTest {
+
+        // 클래스 초기화 블럭
+        static {
+            System.out.println("static { }");
+        }
+
+        // 인스턴스 초기화 블럭
+        {
+            System.out.println("{ }");
+        }
+
+        public BlockTest() {
+            System.out.println("생성자");
+        }
+
+        public static void main(String[] args) {
+            System.out.println("BlockTest bt = new BlockTest(); ");
+            BlockTest bt = new BlockTest();
+
+            System.out.println("BlockTest bt2 = new BlockTest(); ");
+            BlockTest bt2 = new BlockTest();
+        }
+    }
+</details>
+
+<br/>
+
+#### ◾ 멤버 변수 초기화 시기와 순서
+- 클래스 변수의 초기화 시점 &nbsp; &nbsp; : 클래스가 처음 로딩될 때, 단 1번
+- 인스턴스 변수의 초기화 시점 : 인스턴스가 생성될 때마다 각 인스턴스별로 초기화
+
+
+- 클래스 변수의 초기화 순서 &nbsp; &nbsp; : 기본값 → 명시적 초기화 → 클래스 초기화 블럭
+- 인스턴스 변수의 초기화 순서 : 기본값 → 명시적 초기화 → 인스턴스 초기화 블럭 → 생성자
+
+
+    class InitTest {
+
+        // 명시적 초기화
+        static int cv = 1;
+        int iv = 1;
+
+        static { cv = 2; }    // 클래스 초기화 블럭
+        { iv = 2; }           // 인스턴스 초기화 블럭
+
+        // 생성자
+        InitTest() {
+            iv = 3;
+        }
+    }
 
 <br/>
 
