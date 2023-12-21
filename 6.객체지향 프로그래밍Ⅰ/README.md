@@ -1,34 +1,7 @@
-## 목차
-[](#--)
-[1. 객체 지향 언어](#1---------)
+| created    | title               | author         | category |
+|-------|------------------|-----------------|----------|
+| 2023-12-14   | 객체지향프로그래밍1_한의정  | 한의정  | JAVA     |
 
- [2. 클래스와 객체](#2--------)
-<br/>&nbsp;&nbsp;&nbsp;   [◾ 객체](#----)
- <br/>&nbsp;&nbsp;&nbsp;   [◾ 인스턴스 생성과 사용](#-------------)
-
-[3. 변수와 메소드](#3--------)
-<br/>&nbsp;&nbsp;&nbsp;    [◾ 변수](#----)
-<br/>&nbsp;&nbsp;&nbsp;    [◾ 메소드](#-----)
-<br/>&nbsp;&nbsp;&nbsp;    [◾ <span style='background-color: #ffdce0'>JVM의 메모리 구조</span>](#---span-style--background-color---ffdce0--jvm----------span-)
-<br/>&nbsp;&nbsp;&nbsp;    [◾ 기본형 vs 참조형 매개 변수](#------vs----------)
-[4. 오버로딩](#4-----)
-<br/>&nbsp;&nbsp;
-[5. 생성자](#5----)
-<br/>&nbsp;&nbsp;  
-[6. 변수의 초기화](#6--------)
-<br/>&nbsp;&nbsp;  
-<br/>&nbsp;&nbsp;
-
-<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
-
----
-created: 2023-12-14
-title: 객체지향프로그래밍1_한의정
-author: 한의정
-category: study
-tag: study
-aliases: []
----
 
 <br/>
 
