@@ -419,22 +419,22 @@
 
 - 클래스 변수의 초기화 순서 &nbsp; &nbsp; : 기본값 → 명시적 초기화 → 클래스 초기화 블럭
 - 인스턴스 변수의 초기화 순서 : 기본값 → 명시적 초기화 → 인스턴스 초기화 블럭 → 생성자
+<br/>
 
+      class InitTest {
 
-    class InitTest {
+          // 명시적 초기화
+          static int cv = 1;
+          int iv = 1;
 
-        // 명시적 초기화
-        static int cv = 1;
-        int iv = 1;
+          static { cv = 2; }    // 클래스 초기화 블럭
+          { iv = 2; }           // 인스턴스 초기화 블럭
 
-        static { cv = 2; }    // 클래스 초기화 블럭
-        { iv = 2; }           // 인스턴스 초기화 블럭
-
-        // 생성자
-        InitTest() {
-            iv = 3;
-        }
-    }
+          // 생성자
+          InitTest() {
+              iv = 3;
+          }
+      }
 
 <br/>
 
