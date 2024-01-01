@@ -415,6 +415,7 @@
 > abstract 리턴타입 메소드명();
 - "미완성 설계도"
 - 미완성 메소드를 포함하고 구현부가 없어 인스턴스 생성 ❌
+- 생성자 있어야 한다. [(참고)](https://www.tcpschool.com/java/java_polymorphism_abstract)
 
 <br/>
 
@@ -582,3 +583,4 @@
 ### 🔗 출처 및 참고 자료
 - [Java의 정석 3판](https://www.yes24.com/Product/Goods/24259565)
 - [TCP SCHOOL](https://tcpschool.com/java/java_modifier_accessModifier)
+- [TCP SCHOOL - 생성자](https://www.tcpschool.com/java/java_polymorphism_abstract)
