@@ -14,10 +14,10 @@
 |------------|-------------------------------------------------------------------------|
 | **조상 클래스** | 부모(parent) 클래스, 상위(super) 클래스, 기반(base) 클래스                             |
 | **자손 클래스** | 자식(child) 클래스, &nbsp; &nbsp;하위(sub) 클래스, &nbsp; &nbsp; 파생된(derived) 클래스 |
-
-    class Parent { }               // 조상 클래스 : 상속해주는 클래스
-    class Child extends Parnet { } // 자식 클래스 : 상속 받는 클래스
-
+```
+class Parent { }               // 조상 클래스 : 상속해주는 클래스
+class Child extends Parnet { } // 자식 클래스 : 상속 받는 클래스
+```
 - 생성자와 초기화 블럭은 상속X. 멤버만 상속된다.
 - 자손 클래스의 멤버 개수, 조상 클래스보다 항상 같거나 많다.
 - 자손 클래스 인스턴스 생성하면 조상 클래스의 멤버와 자손 클래스의 멤버가 합쳐진 하나의 인스턴스로 생성된다.
@@ -49,14 +49,13 @@
 #### ◾ 클래스 간 관계 결정하기
 > - 상속 관계 : `~은 ~이다` (**is - a**)
 > - 포함 관계 : `~은 ~을 가지고 있다` (**has - a**)
-
-
-    class Circle extends Shape {  // Class와 Shape는 상속관계
-        Point center;             // Class와 Point는 포함관계
-        int r;
-        ...
-    }
-
+```
+class Circle extends Shape {  // Class와 Shape는 상속관계
+    Point center;             // Class와 Point는 포함관계
+    int r;
+    ...
+}
+```
 <br/>
 
 #### ◾ 단일 상속 (single inheritance)
@@ -70,7 +69,7 @@
 #### ◾ Object 클래스 - 모든 클래스의 조상
 
 - 최상위 조상 클래스
-- toString(), equals() 등 메소드 포함
+- <code>toString()</code>, <code>equals()</code> 등 메소드 포함
 
 <br/>
 
@@ -103,7 +102,7 @@
 
 #### ◾ super
 > 자손 클래스에서 조상 클래스로부터 상속받은 멤버를 참조하는 데 사용되는 참조 변수
-- vs this : super는 조상의 멤버와 자신의 멤버를 구별하는 데 사용.
+- vs <code>this</code> : super는 조상의 멤버와 자신의 멤버를 구별하는 데 사용.
 - static 메소드에서는 사용할 수 없고, 인스턴스 메소드에서만 사용 가능
 
    <details>
@@ -176,11 +175,11 @@
 
 #### ◾ static import문
 - static 멤버 호출 시, 클래스 이름 생략 가능
-
-      import static java.lang.Integer.*;   // Integer클래스의 모든 static 메소드
-      import static java.lang.Math.random; // Math.random()만. 괄호 안 붙임
-      import static java.lang.System.out;  // System.out을 out만으로 참조 가능
-
+```
+import static java.lang.Integer.*;   // Integer클래스의 모든 static 메소드
+import static java.lang.Math.random; // Math.random()만. 괄호 안 붙임
+import static java.lang.System.out;  // System.out을 out만으로 참조 가능
+```
 
 > System.out.println(Math.random()) ↔ out.println(random());
 
@@ -196,6 +195,7 @@
 
 
 - 접근 제어자, 한 번에 하나만 선택해 사용 가능 !!
+
 <br/>
 
 #### ◾ static
@@ -393,10 +393,9 @@
 
 #### ◾ 여러 종류의 객체를 배열로 다루기
 - Vector 클래스, 동적으로 배열 크기를 관리하는 객체 배열
-
-
-    Vector vector = new Vector();
-
+```
+Vector vector = new Vector();
+```
 | 용어                           | 설명                                                 |
 |------------------------------|----------------------------------------------------|
 | **Vector()**                 | 10개 이상의 객체를 저장할 수 잇는 Vector 인스턴스 생성                |
@@ -461,13 +460,12 @@
 <br/>
 
 #### ◾ 인터페이스 작성
-
-
-      interface 인터페이스명 {
-          public static final 타입 상수이름 = 값;
-          public abstract 메소드명(매개변수목록);
-      }
-
+```
+interface 인터페이스명 {
+    public static final 타입 상수이름 = 값;
+    public abstract 메소드명(매개변수목록);
+}
+```
 - 제약사항
   - 모든 멤버변수는 <code>public static final</code>여야 하며, 생략 가능
   - 모든 메소드는 <code>public abstract</code>여야 하며, 생략 가능
@@ -482,31 +480,29 @@
 
 #### ◾ 인터페이스 구현
 > 'implements'
+```
+class 클래스명 implements 인터페이스명 {
+    // 인터페이스에 정의된 추상 메소드 구현해야 함
+}
 
-    class 클래스명 implements 인터페이스명 {
-        // 인터페이스에 정의된 추상 메소드 구현해야 함
-    }
-
-    class Fighter implements Fightable {
-        public void move(int x, int y) {}
-        public void attack(Unit u) {}
-    }
-
-- 구현하는 인터페이스 메소드 중 일부만 구현한다면, abstract 붙여 추상 클래스로 선언해야 함
-
-
-    abstract class Fighter implements Fightable {
-        public void move(int x, int y) {}
-    }
-
+class Fighter implements Fightable {
+    public void move(int x, int y) {}
+    public void attack(Unit u) {}
+}
+```
+- 구현하는 인터페이스 메소드 중 일부만 구현한다면, <code>abstract</code> 붙여 추상 클래스로 선언해야 함
+```
+abstract class Fighter implements Fightable {
+    public void move(int x, int y) {}
+}
+```
 - 상속, 구현 동시에 가능!
-    
-
-    class Fighter extends Unit implements Fightable {
-        public void move(int x, int y) {}
-        public void attack(Unit u) {}
-    }
-
+```
+class Fighter extends Unit implements Fightable {
+    public void move(int x, int y) {}
+    public void attack(Unit u) {}
+}
+```
 
 - 오버라이딩 시, 조상의 메소드보다 넓은 범위의 접근 제어자 지정해야 함 → 반드시 public으로
 
@@ -519,10 +515,9 @@
 
 #### ◾ 인터페이스 이용한 다형성
 - 인터페이스, 메소드의 매개변수 타입으로 사용 가능
-
-
-    void attack(Fightable f) {}
-
+```
+void attack(Fightable f) {}
+```
 - 메소드 호출 시 해당 인터페이스를 구현한 클래스의 인스턴스를 매개변수로 제공해야 한다는 것
 - **리턴 타입이 인터페이스 타입 = 메소드가 해당 인터페이스 구현한 클래스의 인스턴스 반환한다는 것** ⭐⭐
 
@@ -549,12 +544,12 @@
 - 예 : java.util.Collecion 인터페이스
 - 몸통 있어야 함
 
-
-    interface MyInterface {
-        void method();
-        default void newMethod();
-    }
-
+```
+interface MyInterface {
+    void method();
+    default void newMethod();
+}
+```
 <br/>
 
 ### 8. 내부 클래스 
@@ -567,16 +562,15 @@
 #### ◾ 익명 클래스
 - 클래스 선언과 객체 생성 동시에
 - 단 한 번만 사용되며 오직 객체 하나만 생성할 수 있는 일회용 클래스
+```
+new 조상클래스명() {
+    // 멤버 선언
+}
 
-
-    new 조상클래스명() {
-        // 멤버 선언
-    }
-
-    new 구현인터페이스명() {
-        // 멤버 선언
-    }
-
+new 구현인터페이스명() {
+    // 멤버 선언
+}
+```
 <br/>
 
 ---

@@ -15,8 +15,8 @@
 | **런타임 에러** | 실행 시 발생하는 에러            |
 | **논리적 에러** | 실행은 되지만, 의도와 다르게 동작하는 것 |
 
-- 에러 : 프로그램 코드에 의해 수습할 수 없는 심각한 오류 (메모리 부족, 스택오버플로우)
-- 예외 : 프로그램 코드에 의해 수습할 수 있는 다소 미약한 오류
+- **에러** : 프로그램 코드에 의해 수습할 수 없는 심각한 오류 (메모리 부족, 스택오버플로우)
+- **예외** : 프로그램 코드에 의해 수습할 수 있는 다소 미약한 오류
 
 <br/>
 
@@ -32,17 +32,17 @@
 - 정의 : 프로그램 실행 시 발생 가능한 예외 발생에 대비한 코드 작성하는 것
 - 목적 : 프로그램의 비정상 종료 막고, 정상적 실행상태 유지
 
-
-    try {
-        // 예외 발생할 가능성이 있는 문장들 넣음
-    } catch(Exception e1) {
-        // Exception1이 발생했을 경우, 이를 처리하기 위한 문장 적음
-    } catch(Exception e2) {
-        // Exception2이 발생했을 경우, 이를 처리하기 위한 문장 적음
-    } catch(Exception eN) {
-        // ExceptionN이 발생했을 경우, 이를 처리하기 위한 문장 적음
-    }
-
+```
+try {
+    // 예외 발생할 가능성이 있는 문장들 넣음
+} catch(Exception e1) {
+    // Exception1이 발생했을 경우, 이를 처리하기 위한 문장 적음
+} catch(Exception e2) {
+    // Exception2이 발생했을 경우, 이를 처리하기 위한 문장 적음
+} catch(Exception eN) {
+    // ExceptionN이 발생했을 경우, 이를 처리하기 위한 문장 적음
+}
+```
 
 <br/>
 
@@ -59,8 +59,8 @@
 <br/>
 
 #### ◾ printStackTrace()와 getMessage()
-- **printStackTrace()** : 예외발생 당시 호출스택에 있었던 메소드의 정보와 예외 메시지를 화면에 출력
-- **getMessage()** : 발생한 예외클래스의 인스턴스에 저장된 메시지 얻을 수 있음
+- **<code>printStackTrace()</code>** : 예외발생 당시 호출스택에 있었던 메소드의 정보와 예외 메시지를 화면에 출력
+- **<code>getMessage()</code>** : 발생한 예외클래스의 인스턴스에 저장된 메시지 얻을 수 있음
 
 
 <br/>
@@ -74,13 +74,12 @@
 
 #### ◾ 자동 자원 반환 - try-with-resources
 - try-with-resources문의 괄호 안에 객체 생성하는 문장 넣으면, 따로 close() 호출하지 않아도 try 블럭 벗어나는 순간 자동적으로 catch 블럭 / finally 블럭 수행
-- 단, 클래스가 AutoClosealbe 인터페이스 구현한 것이어야만 함
-
-
-    public interface AutoCloseable {
-        void close() throws Exception;
-    }
-
+- 단, 클래스가 **AutoClosealbe** 인터페이스 구현한 것이어야만 함
+```
+public interface AutoCloseable {
+    void close() throws Exception;
+}
+```
 <br/>
 
 ---
