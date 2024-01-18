@@ -1,142 +1,175 @@
----
-created: 2023-01-17
-title: 자바스터디_12_지네릭스_열거형_애너테이션
-author: pej
-category: study
-tag: study
-aliases: [자바스터디_12_지네릭스_열거형_애너테이션]
----
+| created    | title           | author         | category |
+|------------|-----------------|-----------------|----------|
+| 2024-01-18 | 지네릭스, 열거형, 애너테이 | 한의정  | JAVA     |
 
-#### 책 목차
-- 제네릭(Generics)
-- 열거형(Enum)
-- 어노테이션
+<br/>
 
-#### 학습할 것
-- 제네릭 사용법 및 주요 개념
-- 제네릭 메소드 만들기
-- 열거형을 정의하는 방법
-- 어노테이션을 정의하는 방법
+## 지네릭스
+    다양한 타입의 객체들을 다루는 메소드나 컬렉션 클래스에 컴파일 시의 타입을 체크 해주는 기능 (compile-time type check)
+	= "다룰 객체 타입을 미리 명시함으로써 형 변환 줄임"
+- 장점
+  1. 객체 타입 안전성 제공
+  2. 형 변환 번거로움 낮춤 & 코드 간결해짐
 
-#### 학습 내용
-1. 제네릭(Generics)
-	+ **클래스나 메소드에서 컴파일시의 타입 체크 기능**
-	+ **다른 타입으로 저장되는 것을 방지하며 원래의 타입과 다른 타입으로 형변환 되어 발생 할 수 있는 오류를 줄여줌**
-	+ JDK 1.5에서 도입되었으며 한 가지 타입만 정해서 저장 할 수 있음
-	+ 컴파일시 **하위 버전과의 호환성 때문에** 컴파일러가 제네릭 타입이 맞는지 소스를 체크하고 필요한 부분에 형변환을 넣어주고 제네릭 타입을 제거함 그래서 **클래스 파일에는 제네릭 타입이 없음**
-	```
-    ArrayList<String> list = new ArrayList<>();
-    list.add("1");
-    /**
-     * 에러 발생 : The method add(int, String) in the type ArrayList<String> is not applicable for the arguments (int)
-     */
-    // list.add(1); 
-    
-    // 코드 호환을 위해 이렇게 사용해도 되나 warning 발생함
-    /**
-     * warning 발생 : ArrayList is a raw type. References to generic type ArrayList<E> should be parameterized
-     */
-    ArrayList list2 = new ArrayList();
-    list2.add("1");
-    list2.add(1);
-	```
-	+ 제네릭의 제한
-		+ static 멤버변수, static 메소드, 배열을 생성 할 수 없음
-			+ 매개변수화된 타입은 인스턴스 변수로 간주되기 때문에
-			+ new 연산자로 생성시 정확한 타입을 알아야 하는데 컴파일시점에서는 T가 어떤 타입일지 알 수가 없음
-		```
-		public class Box<T> {
-		    // 에러 발생 : Cannot make a static reference to the non-static type T
-		    static T str;
-		    static T test() {
-		        // 에러 발생 : Variable must provide either dimension expressions or an array initializer
-		        T[] tmpArr = new T[];
-		    }
-		}
-		```
-	+ 제네릭 주요 개념
-		+ **바운드 타입 매개변수(Bounded Type Parameters)**
-			+ extends 키워드를 이용하여 **타입의 제한을 주고자 할 때** 사용함
-			 ```
-			class Apple {}
-			
-			Box<T extnds Apple>
-			```
-		+ **Multiple Bounds**
-			+ 여러개로 타입의 제한을 주고자 할 때 사용함(인터페이스도 마찬가지)
-			```
-		   interface Eatable() {}
-		   class Apple {}
-		   class Grape {}
-		   
-		   Box<T extnds Apple & Grape & Eatable>
-		   ```
-		+ **와일드 카드**
-			+ 제네릭 타입이 다른 것만으로는 재정의(오버로딩)이 성립하지 않기 때문에 와일드 카드가 고안되었으며 **어떠한 타입도 들어 갈 수 있음**
-			+ Object 타입과 다른 점이 없기 때문에 extends, super로 제한 할 수 있음
-			+ &를 사용 할 수 없음
-		```
-		<? extends T> : T와 그 자손들만 가능 
-		<? super T> : T와 그 조상들만 가능 
-		<?> : 모든 타입 가능 <? extends Object>와 동일
-		```
-	+ 제네릭 메서드
-		+ 메서드 선언부에 **제네릭 타입으로 선언된 메서드**를 의미
-		+ **선언된 제네릭 타입은 지역변수와 같으며 메서드 내에서만 사용됨**
-		+ 대입된 타입을 생략 할 수 없는 경우에는 참조변수나 클래스명을 생략 할 수 없음
-		```
-		public static <T extends Fruit> String makeJuice(FruitBox<T> box) {
-           return "";
-        }
-	    FruitBox<Apple> appleBox = new FruitBox<Apple>();
-        Juicer.makeJuice(appleBox); // == Juicer.<Apple>makeJuice(appleBox);
-        ```
-     + 제네릭의 형변환
-	     + 제네릭 타입과 넌제네릭 타입간의 형변환은 가능
-	     ```
-	     Box<? extends Object> box = new Box<String>();
-		```
+- 용어
+
+      class Box<T> {}
+	    → Box<T> : 지네릭 클래스
+		→ T      : 타입 변수 / 타입 매개변수
+		→ Box    : 원시타입 
+
+- 제한
+  1. 모든 객체에 대해 동일하게 동작해야 하는 <b>static 멤버에 타입 변수 T를 사용할 수 없다</b>. <br/>(∵ 인스턴스 변수로 간주되기 때문)
+     ```
+	 class Box<T> {
+		static T item;  // X
+		static int compare(T t1, T t2) { ... } // X
+	 }
+	 ```
+
+  2. 지네릭 타입 배열 생성 NO
+     ```
+	 class Box<T> {
+		T[] itemArr;  // OK. T 타입 배열 위한 참조변수
 		
-	 > 용어 정리
-     > ```
-     > ArrayList<String> list = new ArrayList<>();
-     > ```
-     > + ArrayList : 원시 타입
-     > + String : 타입 매개변수 또는 매개변수화된 타입(Parameterized Type)
-     > + ArrayList<String> : 매개변수화된 타입(Parameterized Type)
+		T[] toArray() {
+			T[] tmpArr = new T[itemArr.length];	// X
+			...
+			return tmpArr;
+		}
+	 }
+	 ```
 
-2. 열거형(Enums)
-	+ **변수가 상수 집합이 되도록 하는 특수한 데이터 유형**
-	+ 값뿐만 아니라 타입까지 체크함(**typesafe enum**)
-	+ 상수값이 바뀌면 해당 상수를 참조하는 모든 소스를 다시 컴파일해야 하지만 열거형 상수를 이용하면 기존의 소스를 다시 컴파일하지 않아도 됨
-	+ 열거형 상수는 '=='으로 비교 할 수 있음
-	+ static 변수를 사용하는 것과 동일하게 **열거형.상수명**으로 호출하면 됨
-	```
-	public class TestEnum {
-	    private static Logger logger = LogManager.getLogger(TestEnum.class);
-	    
-	    public static void main(String[] args) {
-	       DayEnum[] str = DayEnum.values();
-	       
-	       for (DayEnum item : str) {
-	           logger.debug("item() : {}", item);
-	       }
-	       
-	       logger.debug("DayEnum.EVENING == DayEnum.MORNING : {}", DayEnum.EVENING == DayEnum.MORNING);
-	       logger.debug("DayEnum.MORNING == DayEnum.MORNING : {}", DayEnum.MORNING == DayEnum.MORNING);
-	    }
+<br/>
+
+### 지네릭 클래스 선언
+#### 1. <b>클래스</b>에 선언
+```
+class Box<T> {	// 지네릭 타입 T 선언
+	T item;
+
+	void setItem(T item) {this.item = item; }
+	T getItem() {return item;}
+}
+```
+
+→ T/E : 타입 변수, <b>임의의 참조형 타입</b> 의미
+
+<br/>
+
+<b>지네릭 클래스의 객체 생성과 사용</b>
+<br/>
+: 참조변수와 생성자에 대입된 타입(매개변수화된 타입)이 일치해야 한다.
+
+```
+Box<Apple> appleBox = new Box<Apple>();	// O
+Box<Apple> appleBox = new Box<Grape>();	// X
+```
+
+<br/>
+
+<b>제한된 지네릭 클래스</b>
+<br/>
+: 지네릭 타입에 <code>extends</code> 사용하면, 특정 타입 자손들만 대입할 수 있게 제한 가능<br/>
+(인터페이스 구현해야 하는 제약 만들 때도 <code>implements</code> 말고 <code>extends</code> 사용)
+
+```
+class FruitBox<T extends Fruit> {	// Fruit의 자손만 타입으로 지정 가능
+	ArrayList<T> list = new ArrayList<T>();
+	...
+}
+
+class FruitBox<T extends Fruit & Eatble> {...}	// Fruit의 자손이면서 인터페이스 구현도 동시에
+```
+
+<br/>
+
+<b>와일드 카드</b>
+<br/>
+: 어떠한 타입도 될 수 있다. (상한 : <code>extends</code> / 하한 : <code>super</code>)
+
+| 와일드카드 | 의미                                  |
+|:-------|:-------------------------------------------|
+| <? extends T> | 와일드카드의 상한 제한. T와 그 자손들만 가능  |
+| <? super T>   | 와일드카드의 하한 제한. T와 그 조상들만 가능  |
+| <?>   | 제한 없음. 모든 타입 가능 (= <? extends Object>) |
+
+<br/>            
+
+```
+class Juicer {
+	static Juice makeJuice(FruitBox<? extends Fruit> box) {
+		String tmp = "";
+		for(Fruit f : box.getList())	tmp += f + " ";
+		return new Juice(tmp);
 	}
-	[실행결과]
-	item() : MORNING
-	item() : EVENING
-	item() : AFTERNNON
-	DayEnum.EVENING == DayEnum.MORNING : false
-	DayEnum.MORNING == DayEnum.MORNING : true
+}
+```
+→ 매개변수로 <code>FruitBox<Fruit></code>뿐만 아니라, <code>FruitBox<Apple></code>과 <code>FruitBox<Grape></code>도 가능하게 된다. <br/>
+
+- <code>Collections.sort()</code> 메소드 선언부 : <code> static<T> void sort(List<T> list, Comparator<? super T> c)</code>
 	```
-   
-    > java.lang.Enum
-    > + 모든 열거형의 조상
-    > + values(), valueOf() 메서드는 컴파일러가 자동으로 추가해주며 모든 열거형이 가지고 있음
+	class FruitComp implements Comparator<Fruit> {
+		public int compare(Fruit t1, Fruit t2) {
+			return t1.weight - t2.weight;
+		}
+	}
+
+	...
+	// List<Apple>을 Comparator<Fruit>로 정렬
+	Collections.sort(appleBox.getList(), new FruitComp());
+	```
+
+<br/>
+
+
+#### 2. 메소드에 선언 = 지네릭 메소드
+<quote> - 메소드 선언부에 지네릭 타입이 선언된 메소드 <br/> - 선언 위치 : 반환 타입 바로 앞</quote>
+
+```
+static <T> void sort(List<T> list, Comparator<? super T> c)
+```
+
+- static 멤버에는 타입 매개 변수를 사용할 수 없으나, 메소드에 지네릭 타입 선언하고 사용하는 것은 OK
+- 앞에 나온 makeJuice()를 지네릭 메소드로 바꾸고 호출하는 예제
+	```
+	static <T extends Fruit> Juice makeJuice(FruitBox<T> box) {
+		String tmp = "";
+		for(Fruit f : box.getList())	tmp += f + " ";
+		return new Juice(tmp);
+	}
+
+	FruitBox<Fruit> fruitBox = new FruitBox<Fruit>();
+	FruitBox<Apple> fruitBox = new FruitBox<Apple>();
+
+	System.out.println(Juicer.<Fruit>makeJuice(fruitBox));
+	System.out.println(Juicer.makeJuice(appleBox));	// 타입 변수에 대입된 타입 생략 가능
+	```
+
+- 단, 대입된 타입을 생략할 수 없는 경우, 참조변수나 클래스명 생략 불가
+
+(~p.686)
+
+
+<br/>
+
+
+
+### 
+
+<br/>
+
+
+
+<br/>
+
+---
+### 🔗 출처 및 참고 자료
+- Java의 정석
+- [TCP SCHOOL](https://www.tcpschool.com/java/java_collectionFramework_concept)
+
+
+
 
 
 3. 어노테이션(Annotation)
@@ -220,8 +253,3 @@ aliases: [자바스터디_12_지네릭스_열거형_애너테이션]
 - Java의 정석
 - https://docs.oracle.com/javase/tutorial/java/generics/index.html
 - https://docs.oracle.com/javase/tutorial/java/annotations/predefined.html
-
-#### 연결문서
-- 자바스터디_11_컬렉션프레임워크
-
-#### 각주
