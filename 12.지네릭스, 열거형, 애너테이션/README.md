@@ -1,10 +1,10 @@
 | created    | title           | author         | category |
 |------------|-----------------|-----------------|----------|
-| 2024-01-18 | 지네릭스, 열거형, 애너테이 | 한의정  | JAVA     |
+| 2024-01-18 | 지네릭스, 열거형, 애너테이션 | 한의정  | JAVA     |
 
 <br/>
 
-## 지네릭스
+## [1] 지네릭스
     다양한 타입의 객체들을 다루는 메소드나 컬렉션 클래스에 컴파일 시의 타입을 체크 해주는 기능 (compile-time type check)
 	= "다룰 객체 타입을 미리 명시함으로써 형 변환 줄임"
 - 장점
@@ -148,25 +148,148 @@ static <T> void sort(List<T> list, Comparator<? super T> c)
 
 - 단, 대입된 타입을 생략할 수 없는 경우, 참조변수나 클래스명 생략 불가
 
-(~p.686)
+<br/>
+
+<b>지네릭 타입의 형 변환</b> &nbsp;/*복습하기*/
+<br/>
+- 지네릭 타입 - 원시 타입 간 형 변환 OK. but 경고 뜸
+- 와일드 카드가 사용된 지네릭 타입끼리도 형 변환 가능한 경우 있음 
+
+<br/>
+
+<b>지네릭 타입 제거</b>
+
+<quote>컴파일러, 지네릭 타입 이용해 소스 파일 체크하고, 필요한 곳에 형 변환 넣은 후, 지네릭 타입 제거</quote>
+
+1. 지네릭 타입의 경계(bound)를 제거
+2. 지네릭 타입 제거 후, 타입이 일치하지 않으면 형 변환 추가
+
+<br/>
+
+## [2] 열거형 (enums)
+<quote>열거형이 갖는 값뿐만 아니라 타입까지 관리 (typesafe enum)</quote>
+```
+class Card {
+	enum Kind  {CLOVER, HEART, DIAMOND, SPADE}	// 열거형 Kind 정의
+	enum Value {TWO, TRHEE, FOUR}				// 열거형 Value 정의
+
+	final Kind  kind;	// 타입이 int가 아닌 Kind
+	final Value value;
+}
+
+if(Card.CLOVER == Card.TWO)				// true지만 false어야 의미 상 맞음
+if(Card.Kind.CLOVER == Card.Value.TWO)	// false. 값은 같지만 타입이 다름
+```
+<br/>
+
+- 정의 : `enum 열거형이름 { 상수명1, 상수명2, ... } `
+- 사용 : `열거형이름.상수명`
+- 예제
+	```
+	enum Direction {EAST, SOUTH, WEST, NORTH}
+
+	class Unit {
+		int x, y;		// 유닛 위치
+		Direction dir;	// 열거형을 인스턴스 변수로 선언
+	}
+
+	void init() {
+		dir = Direction.EAST;	// 유닛 방향을 EAST로 초기화
+	}
+	```
+- 열거형 상수 간 비교 → <code>==</code> / <,> 비교 시 → <code>compareTo()</code> 사용
+- 멤버 추가하기
+	1. 열거형 상수 모두 정의하기 : 열거형 상수 이름 옆에 원하는 값을 괄호()와 함께 적기
+	2. 지정된 값을 저장할 수 있는 인스턴스 변수와 생성자 새로 추가하기
+		```
+		enum Direction {
+			 EAST(1), SOUTH(5), WEST(-1), NORTH(10);
+
+			 private final int value;	// 정수 저장할 필드(인스턴스 변수) 추가
+			 Direction(int value) { this.value = value; }	// 생성자 추가 (묵시적으로 접근 제어자는 private)
+
+			 public int getValue() { return value; }
+		}
+		```
+
+
 
 
 <br/>
 
-
-
-### 
+#### 모든 열거형의 조상 java.lang.Enum
+| 메소드 | 설명                                  |
+|:-------|:-------------------------------------------|
+| static E values() | 열거형의 모든 상수를 배열에 담아 반환  |
+| static E valueOf(String name) | 전달된 문자열과 일치하는 열거형 상수 반환  |
+| protected void finalize() | 해당 Enum 클래스가 final 메소드를 가질 수 없게 됨.  |
+| String name()   | 열거형 상수의 이름을 문자열로 반환  |
+| int ordinal()   | 열거형 상수가 정의된 순서 반환 (0부터 시작) |
 
 <br/>
 
+## [3] 애너테이션 (annotation)
+<quote>프로그램의 소스코드 안에 다른 프로그램을 위한 정보를 미리 약속된 형식으로 포함시킨 것</quote>
+- 테스트 프로그램에 알리는 역할을 할 뿐, 프로그램 자체에는 아무 영향 X (≒ 주석)
 
+<br/>
+
+#### 표준 애너테이션
+| 애너테이션 | 설명                                  |
+|:-------|:-------------------------------------------|
+| @Override | 컴파일러에 오버라이딩하는 메소드라는 것을 알림  |
+| @Deprecated | 앞으로 사용하지 않을 것을 권장하는 대상에 붙임  |
+| @SuppressWarnings | 컴파일러의 특정 경고 메시지가 나타나지 않게 함 <br/> → deprecation, unchecked, rawtypes, varargs |
+| @SafeVarags   | 지네릭스 타입의 가변인자에 사용  |
+| @FunctionalInterface   | 함수형 인터페이스임을 알림 |
+| @Native   | native 메소드에서 참조되는 상수 앞에 붙임 |
+
+<br/>
+<b>@FunctionalInterface</b>
+
+- 함수형 인터페이스 올바르게 선언했는지 확인하고, 잘못된 경우 에러 발생 
+```
+@FunctionalInterface
+public interface Runnable {
+	public abstract void run();	// 추상 메소드
+}
+```
+
+<br/>
+
+<b>@SuppressWarnings</b>
+
+- `deprecation` :  @Deprecated가 붙은 대상을 사용해 발생하는 경고
+- `unchecked`   : 지네릭스로 타입을 지정하지 않아 발생하는 경고
+- `rawtypes` : 지네릭스를 사용하지 않아 발생하는 경고
+- `varargs` : 가변인자의 타입이 지네릭 타입일 때 발생하는 경고
+```
+@SuppressWarnings("unchecked")		// 지네릭스 관련 경고 억제
+ArrayList list = new ArrayList();	// 지네릭 타입 지정 안 함
+list.add(obj);						// 여기서 경고 발생
+
+// 둘 이상의 경고 억제 시
+@SuppressWarnings({"deprecation", "unchecked", "varargs"})
+```
+
+<br/>
+
+<b>@SafeVarargs</b>
+
+- static이나 final이 붙은 메소드에만 사용 가능 (= 오버라이드될 수 있는 메소드에서는 사용 불가)
+- 메소드에 선언한 가변인자의 타입이 컴파일 시 제거되는 <b>non-refiable 타입</b>인 경우, 메소드를 선언하는 부분과 호출하는 부분에 <code>"unchecked"</code> 경고 발생
+- 보통 @SafeVarargs와 @SuppressWarnings("varargs") 두 애너테이션 같이 사용
+
+<br/>
+
+(~p.710)
 
 <br/>
 
 ---
 ### 🔗 출처 및 참고 자료
 - Java의 정석
-- [TCP SCHOOL](https://www.tcpschool.com/java/java_collectionFramework_concept)
+- [TCP SCHOOL](https://tcpschool.com/java/java_api_enum)
 
 
 
