@@ -159,15 +159,15 @@ static <T> void sort(List<T> list, Comparator<? super T> c)
 
 <b>지네릭 타입 제거</b>
 
-<quote>컴파일러, 지네릭 타입 이용해 소스 파일 체크하고, 필요한 곳에 형 변환 넣은 후, 지네릭 타입 제거</quote>
+    컴파일러, 지네릭 타입 이용해 소스 파일 체크하고, 필요한 곳에 형 변환 넣은 후, 지네릭 타입 제거
 
-1. 지네릭 타입의 경계(bound)를 제거
+1. 지네릭 타입의 경계(bound) 제거
 2. 지네릭 타입 제거 후, 타입이 일치하지 않으면 형 변환 추가
 
 <br/>
 
 ## [2] 열거형 (enums)
-<quote>열거형이 갖는 값뿐만 아니라 타입까지 관리 (typesafe enum)</quote>
+열거형이 갖는 값뿐만 아니라 타입까지 관리 (typesafe enum)
 ```
 class Card {
 	enum Kind  {CLOVER, HEART, DIAMOND, SPADE}	// 열거형 Kind 정의
@@ -213,11 +213,9 @@ if(Card.Kind.CLOVER == Card.Value.TWO)	// false. 값은 같지만 타입이 다�
 		```
 
 
-
-
 <br/>
 
-#### 모든 열거형의 조상 java.lang.Enum
+### 모든 열거형의 조상 java.lang.Enum
 | 메소드 | 설명                                  |
 |:-------|:-------------------------------------------|
 | static E values() | 열거형의 모든 상수를 배열에 담아 반환  |
@@ -231,10 +229,30 @@ if(Card.Kind.CLOVER == Card.Value.TWO)	// false. 값은 같지만 타입이 다�
 ## [3] 애너테이션 (annotation)
 <quote>프로그램의 소스코드 안에 다른 프로그램을 위한 정보를 미리 약속된 형식으로 포함시킨 것</quote>
 - 테스트 프로그램에 알리는 역할을 할 뿐, 프로그램 자체에는 아무 영향 X (≒ 주석)
+- 애너테이션 타입 정의하기 
+	```
+	@interface 애너테이션명 {
+		타입 요소이름();	// 애너테이션 요소 선언
+		...
+	}
+	```
+<br/>
+
+- _<b>애너테이션 요소</b>_ : 애너테이션 내에 선언된 메소드
+<br/>
+	- 반환값이 있고 매개변수는 없는 추상 메소드 형태
+	- 상속으로 구현할 필요 X
+	- 단, 애너테이션 적용 시 요소들의 값을 빠짐없이 지정하기 (순서는 상관 X)
+
+- 애너테이션 요소의 규칙
+	- 요소의 타입은 기본형, String, enum, 애너테이션, Class만 허용
+	- () 안에 매개변수 선언X
+	- 예외 선언X
+	- 요소를 타입 매개변수로 정의할 수 X
 
 <br/>
 
-#### 표준 애너테이션
+### 표준 애너테이션
 | 애너테이션 | 설명                                  |
 |:-------|:-------------------------------------------|
 | @Override | 컴파일러에 오버라이딩하는 메소드라는 것을 알림  |
@@ -282,7 +300,96 @@ list.add(obj);						// 여기서 경고 발생
 
 <br/>
 
-(~p.710)
+### 메타 애너테이션
+
+    애너테이션 정의 시 애너테이션의 적용대상이나 유지기간 등 지정 시 사용
+	(애너테이션을 위한 애너테이션)
+
+
+<br/>
+<b>@Target</b>
+
+ 애너테이션에 적용 가능한 대상 지정하는 데 사용
+
+| 대상 타입 | 의미                                  |
+|:-------|:-------------------------------------------|
+| ANNOTATION_TYPE | 애너테이션  |
+| CONSTRUCTOR | 생성자  |
+| FIELD | 필드 (멤버변수, enum 상수) → 기본형에 사용 |
+| LOCAL_VARIABLE   | 지역변수  |
+| METHOD   | 메소드 |
+| PACKAGE  | 메소드 |
+| PARAMETER | 매개변수 |
+| TYPE  | 타입 (클래스, 인터페이스, enum) |
+| TYPE_PARAMETER  | 타입 매개변수 |
+| TYPE_USE  | 타입이 사용되는 모든 곳 → 참조형에 사용 |
+
+<br/>
+
+```
+import static java.lang.annotation.ElementType.*;
+
+@Target({FIELD, TYPE, TYPE_USE})	// 적용 대상이 FIELD, TYPE, TYPE_USE
+public @interface MyAnnotation { }
+
+@MyAnnotation	// 적용 대상이 TYPE인 경우
+class MyClass {
+	@MyAnnotation	// 적용 대상이 FIELD인 경우
+	int i;
+
+	@MyAnnotation	// 적용 대상이 TYPE_USE인 경우
+	int i;
+}
+
+```
+
+<br/>
+
+<b>@Retention</b>
+<br/>
+애너테이션 유지 기간 지정 시 사용
+
+| 유지 정책 | 의미                                  |
+|:-------|:-------------------------------------------|
+| SOURCE | 소스 파일에만 존재., 클래스 파일에는 존재X.  |
+| CLASS | 클래스 파일에 존재. 실행 시 사용 X. 기본값  |
+| RUNTIME | 클래스 파일에 존재. 실행 시 사용 O. |
+
+```
+@Retention(RetentionPolicy.RUNTIME)
+```
+
+<br/>
+
+<b>@Documented</b>
+<br/>
+애너테이션에 대한 정보가 javadoc으로 작성된 문서에 포함되도록 함
+
+<b>@Inherited</b>
+<br/>
+애너테이션이 자손 클래스에 상속되도록 함
+```
+@Inherited	// @SuperAnno가 자손까지 영향 미치게
+@interface SupperAnno {}
+
+@SuperAnno
+class Parent {}
+
+class Child extends Parent {} 	// Child에 애너테이션이 붙은 것으로 인식
+```
+<br/>
+
+<b>@Repeatable</b>
+<br/>
+여러 번 붙일 수 있음
+
+<b>@Native</b><br/>
+네이티브 메소드에 의해 참조되는 '상수 필드'에 붙이는 애너테이션
+
+<br/>
+
+#### 마커 애너테이션
+값을 지정할 필요가 없는 경우, 요소를 하나도 정의하지 않은 애너테이션<br/>(Cloneable, Serizable)
 
 <br/>
 
@@ -290,89 +397,3 @@ list.add(obj);						// 여기서 경고 발생
 ### 🔗 출처 및 참고 자료
 - Java의 정석
 - [TCP SCHOOL](https://tcpschool.com/java/java_api_enum)
-
-
-
-
-
-3. 어노테이션(Annotation)
-	+ **주석처럼 프로그램에는 영향을 주지 않으며 프로그램에 유용한 정보를 제공할 수 있음**
-	+ 표준 어노테이션
-		+ 자바에서 기본적으로 제공하는 어노테이션으로 컴파일러시 오류 및 경고를 알려줄 수 있음
-		+ 예) @Override, @Deprecated, @FunctionalInterface
-	+ 메타 어노테이션
-		+ 어노테이션을 위한 어노테이션
-		+ 적용대상이나 유지기간을 지정할 때 사용함
-		+ java.lang.annotation에 정의되어 있음
-
-	![메타어노테이션](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FP4DU6%2FbtqVbvseXnM%2F5HG4KWreIQOWKJFIZkiFBK%2Fimg.png)
-
-	| 어노테이션 | 대상 타입       | 의미                                                     |
-	|:---------- |:--------------- |:-------------------------------------------------------- |
-	| @Target    | ANNOTATION_TYPE | 어노테이션                                               |
-	| @Target    | CONSTRUCTOR     | 생성자                                                   |
-	| @Target    | FIELD           | 기본형 타입 필드(멤버변수, enum상수)                     |
-	| @Target    | LOCAL_VARIABLE  | 지역변수                                                 |
-	| @Target    | METHOD          | 메서드                                                   |
-	| @Target    | PACKAGE         | 패키지                                                   |
-	| @Target    | PARAMETER       | 매개변수                                                 |
-	| @Target    | TYPE            | 클래스의 모든 요소(클래스, 인터페이스, enum, 어노테이션) |
-	| @Target    | TYPE_PARAMETER  | 타입 매개변수(JDK 1.8)                                   |
-	| @Target    | TYPE_USE        | 참조형 타입(JDK 1.8)                                     |
-	| @Retention | SOURCE          | 소스 파일에만 존재, 클래스 파일에는 존재하지 않음        |
-	| @Retention | CLASS           | 클래스 파일에 존재, 실행시에는 사용불가(기본값)          |
-	| @Retention | RUNTIME         | 클래스 파일에 존재, 실행시에도 사용가능                                                          |
-	
-	+ 좀 더 자세한 내용은 [URL 참조](https://docs.oracle.com/javase/tutorial/java/annotations/predefined.html)
-
-	```
-	@Documented
-	@Retention(CLASS)
-	@Target({ FIELD, TYPE, TYPE_USE })
-	public @interface LottoAnnotation {
-	    String author() default "pej";
-	    int order() default 1;
-	    String[] testArr(); // => 기본값이 없으므로 반드시 있어야함
-	    TestType testType() default TestType.EVENING;
-	    
-	    public enum TestType {
-	        MORNING, AFTERNNON, EVENING;
-	    }
-	}
-	@LottoAnnotation(testArr = { "class" })
-	public class TestAnnotation {
-	    @LottoAnnotation(author="test1", order = 2, testType = TestType.MORNING, testArr = { "filed" })
-	    int num = 0;
-	    
-	    @LottoAnnotation(testArr = { "method" })
-	    public String test() {
-	        return "test";
-	    }
-	}
-	```
-	+ 어노테이션 규칙
-		+ 기본형, String, enum, 어노테이션, Class만 허용됨
-		+ 상수 선언 가능
-		+ 예외, 제네릭 타입을 선언 할 수 없음
-		+ ()안에 매개변수를 선언 할 수 없음
-		+ **요소 이름 `value`이면 이름을 생략하고 값을 넣을 수 있음**
-		```
-		public @interface LottoAnnotation {
-			String value();
-		}
-		@LottoAnnotation("test")
-		public class TestAnnotation { }
-		```
-
-	> java.lang.annotation.Annotation
-	> + 모든 어노테이션의 조상
-	> + 어노테이이션은 명시적으로 상속이 허용되지 않으므로 묵시적으로 상속 받음
-	
-	> 마커 어노테이션(Marker Annotation)
-	> + 요소가 하나도 없는 어노테이션
-	> + 예) Serializable, Cloneable
-	
-#### 출처(참고문헌)
-- Java의 정석
-- https://docs.oracle.com/javase/tutorial/java/generics/index.html
-- https://docs.oracle.com/javase/tutorial/java/annotations/predefined.html
